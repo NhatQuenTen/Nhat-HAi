@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Ứng Viên - Tìm Việc Nhanh</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Global Sidebar CSS -->
+    <link rel="stylesheet" href="css/style-global.css">
+    
+    <!-- Advanced Filter CSS -->
+    <style>
+        .advanced-filter-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1050;
+            overflow-y: auto;
+        }
+
+        .advanced-filter-sidebar.active {
+            right: 0;
+        }
+
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1049;
+        }
+
+        .filter-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .filter-header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 1.5rem;
+            z-index: 10;
+        }
+
+        .filter-body {
+            padding: 1.5rem;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-label i {
+            color: #3b82f6;
+        }
+
+        .multi-select-wrapper {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .multi-select-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .multi-select-wrapper::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .checkbox-item {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: background 0.2s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #f1f5f9;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            margin: 0;
+            user-select: none;
+        }
+
+        .salary-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .age-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .advanced-filter-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body class="with-sidebar">
+    
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper" id="mainContent">
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="bi bi-people-fill text-primary me-2"></i>
+                    Tìm Ứng Viên
+                </h1>
+                <button class="btn btn-primary" id="advancedSearchBtn">
+                    <i class="bi bi-funnel-fill me-2"></i>
+                    Tìm kiếm nâng cao
+                </button>
+            </div>
+
+            <!-- Search Section -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Tìm theo tên, kỹ năng...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" size="1">
+                                <option>Tất cả ngành nghề</option>
+                                <option>Công nghệ thông tin</option>
+                                <option>Kinh doanh / Bán hàng</option>
+                                <option>Marketing / Truyền thông</option>
+                                <option>Kế toán / Tài chính</option>
+                                <option>Nhân sự / Hành chính</option>
+                                <option>Kỹ thuật / Cơ khí</option>
+                                <option>Xây dựng</option>
+                                <option>Y tế / Dược</option>
+                                <option>Giáo dục / Đào tạo</option>
+                                <option>Du lịch / Khách sạn</option>
+                                <option>Nhà hàng / Ăn uống</option>
+                                <option>Bất động sản</option>
+                                <option>Luật / Pháp lý</option>
+                                <option>Thiết kế / Mỹ thuật</option>
+                                <option>Báo chí / Biên tập</option>
+                                <option>Logistics / Vận tải</option>
+                                <option>Sản xuất / Chế biến</option>
+                                <option>Nông nghiệp / Lâm nghiệp</option>
+                                <option>Thời trang / May mặc</option>
+                                <option>Điện / Điện tử</option>
+                                <option>Hóa học / Sinh học</option>
+                                <option>Môi trường</option>
+                                <option>An ninh / Bảo vệ</option>
+                                <option>Ngân hàng</option>
+                                <option>Bảo hiểm</option>
+                                <option>Chứng khoán</option>
+                                <option>Viễn thông</option>
+                                <option>Năng lượng</option>
+                                <option>Tư vấn</option>
+                                <option>Nghệ thuật / Giải trí</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" size="1">
+                                <option>Tất cả địa điểm</option>
+                                <option>Hồ Chí Minh</option>
+                                <option>Hà Nội</option>
+                                <option>Đà Nẵng</option>
+                                <option>Hải Phòng</option>
+                                <option>Cần Thơ</option>
+                                <option>Bình Dương</option>
+                                <option>Đồng Nai</option>
+                                <option>Khánh Hòa</option>
+                                <option>Long An</option>
+                                <option>Quảng Nam</option>
+                                <option>Bà Rịa - Vũng Tàu</option>
+                                <option>Đắk Lắk</option>
+                                <option>Lâm Đồng</option>
+                                <option>Thừa Thiên Huế</option>
+                                <option>Kiên Giang</option>
+                                <option>Bắc Ninh</option>
+                                <option>Quảng Ninh</option>
+                                <option>Thanh Hóa</option>
+                                <option>Nghệ An</option>
+                                <option>Hải Dương</option>
+                                <option>Gia Lai</option>
+                                <option>Bình Thuận</option>
+                                <option>Bình Phước</option>
+                                <option>Hưng Yên</option>
+                                <option>Bình Định</option>
+                                <option>Tiền Giang</option>
+                                <option>Thái Bình</option>
+                                <option>Bắc Giang</option>
+                                <option>Hòa Bình</option>
+                                <option>An Giang</option>
+                                <option>Vĩnh Phúc</option>
+                                <option>Tây Ninh</option>
+                                <option>Thái Nguyên</option>
+                                <option>Lào Cai</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100">
+                                <i class="bi bi-search me-2"></i>Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidates List -->
+            <div class="row g-4">
+                <!-- Candidate Card Example -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-person-circle fs-1 text-primary"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="card-title mb-1">Nguyễn Văn A</h5>
+                                    <p class="text-muted small mb-0">Senior Developer</p>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">JavaScript</span>
+                                <span class="badge bg-primary">React</span>
+                                <span class="badge bg-primary">Node.js</span>
+                            </div>
+                            <p class="text-muted small">5 năm kinh nghiệm</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary flex-grow-1">
+                                    <i class="bi bi-eye me-1"></i>Xem
+                                </button>
+                                <button class="btn btn-sm btn-primary flex-grow-1">
+                                    <i class="bi bi-bookmark me-1"></i>Lưu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more candidate cards here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filter Overlay -->
+    <div class="filter-overlay" id="filterOverlay"></div>
+
+    <!-- Advanced Filter Sidebar -->
+    <aside class="advanced-filter-sidebar" id="advancedFilterSidebar">
+        <div class="filter-header">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0 fw-bold">
+                    <i class="bi bi-funnel-fill me-2"></i>
+                    Tìm kiếm nâng cao
+                </h5>
+                <button type="button" class="btn-close btn-close-white" id="closeFilterBtn"></button>
+            </div>
+            <p class="mb-0 small opacity-90">Tùy chỉnh tiêu chí tìm kiếm ứng viên phù hợp</p>
+        </div>
+
+        <div class="filter-body">
+            <form id="advancedFilterForm">
+                <!-- Từ khóa -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-search"></i>
+                        Từ khóa
+                    </label>
+                    <input type="text" class="form-control" placeholder="Nhập tên công việc, kỹ năng, chứng chỉ...">
+                    <small class="text-muted">VD: Java, React, AWS Certified, Senior Developer</small>
+                </div>
+
+                <!-- Ngành nghề -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-briefcase"></i>
+                        Ngành nghề
+                    </label>
+                    <div class="multi-select-wrapper">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry1" value="it">
+                            <label for="industry1">Công nghệ thông tin</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry2" value="business">
+                            <label for="industry2">Kinh doanh / Bán hàng</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry3" value="marketing">
+                            <label for="industry3">Marketing / Truyền thông</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry4" value="accounting">
+                            <label for="industry4">Kế toán / Tài chính</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry5" value="hr">
+                            <label for="industry5">Nhân sự / Hành chính</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry6" value="engineering">
+                            <label for="industry6">Kỹ thuật / Cơ khí</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry7" value="construction">
+                            <label for="industry7">Xây dựng</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry8" value="healthcare">
+                            <label for="industry8">Y tế / Dược</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry9" value="education">
+                            <label for="industry9">Giáo dục / Đào tạo</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="industry10" value="tourism">
+                            <label for="industry10">Du lịch / Khách sạn</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vị trí địa lý -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-geo-alt"></i>
+                        Vị trí địa lý
+                    </label>
+                    <div class="multi-select-wrapper">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc1" value="hcm">
+                            <label for="loc1">Hồ Chí Minh</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc2" value="hn">
+                            <label for="loc2">Hà Nội</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc3" value="dn">
+                            <label for="loc3">Đà Nẵng</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc4" value="hp">
+                            <label for="loc4">Hải Phòng</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc5" value="ct">
+                            <label for="loc5">Cần Thơ</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc6" value="bd">
+                            <label for="loc6">Bình Dương</label>
+                        </div>
+                    </div>
+                    <small class="text-muted d-block mt-2">Có thể chọn nhiều khu vực cùng lúc</small>
+                </div>
+
+                <!-- Mức kinh nghiệm -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-award"></i>
+                        Mức kinh nghiệm
+                    </label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="0-1">Dưới 1 năm</option>
+                        <option value="1-3">1 - 3 năm</option>
+                        <option value="3-5">3 - 5 năm</option>
+                        <option value="5+">Trên 5 năm</option>
+                    </select>
+                </div>
+
+                <!-- Trình độ học vấn -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-mortarboard"></i>
+                        Trình độ học vấn
+                    </label>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="edu1" value="trung-cap">
+                            <label class="form-check-label" for="edu1">Trung cấp</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="edu2" value="cao-dang">
+                            <label class="form-check-label" for="edu2">Cao đẳng</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="edu3" value="dai-hoc">
+                            <label class="form-check-label" for="edu3">Đại học</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="edu4" value="sau-dai-hoc">
+                            <label class="form-check-label" for="edu4">Sau đại học</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mức lương mong muốn -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-cash-stack"></i>
+                        Mức lương mong muốn
+                    </label>
+                    <div class="salary-range mb-3">
+                        <input type="number" class="form-control" placeholder="Từ" min="0">
+                        <span>-</span>
+                        <input type="number" class="form-control" placeholder="Đến" min="0">
+                        <select class="form-select" style="max-width: 100px;">
+                            <option>Triệu</option>
+                            <option>USD</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="negotiable">
+                        <label class="form-check-label" for="negotiable">Thỏa thuận</label>
+                    </div>
+                </div>
+
+                <!-- Hình thức làm việc -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-clock"></i>
+                        Hình thức làm việc
+                    </label>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="work1" value="fulltime">
+                            <label class="form-check-label" for="work1">Toàn thời gian</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="work2" value="parttime">
+                            <label class="form-check-label" for="work2">Bán thời gian</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="work3" value="intern">
+                            <label class="form-check-label" for="work3">Thực tập</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="work4" value="remote">
+                            <label class="form-check-label" for="work4">Làm việc từ xa</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Giới tính -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-gender-ambiguous"></i>
+                        Giới tính (tuỳ chọn)
+                    </label>
+                    <select class="form-select">
+                        <option value="">Không yêu cầu</option>
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                    </select>
+                </div>
+
+                <!-- Độ tuổi -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-calendar-range"></i>
+                        Độ tuổi
+                    </label>
+                    <div class="age-range">
+                        <input type="number" class="form-control" placeholder="Từ" min="18" max="100">
+                        <span>-</span>
+                        <input type="number" class="form-control" placeholder="Đến" min="18" max="100">
+                        <span>tuổi</span>
+                    </div>
+                </div>
+
+                <!-- Thời gian cập nhật hồ sơ -->
+                <div class="filter-section">
+                    <label class="filter-label">
+                        <i class="bi bi-clock-history"></i>
+                        Thời gian cập nhật hồ sơ
+                    </label>
+                    <select class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="24h">Trong 24h qua</option>
+                        <option value="3d">3 ngày qua</option>
+                        <option value="7d">7 ngày qua</option>
+                        <option value="30d">30 ngày qua</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 pt-3">
+                    <button type="reset" class="btn btn-outline-secondary flex-grow-1">
+                        <i class="bi bi-arrow-counterclockwise me-2"></i>Đặt lại
+                    </button>
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        <i class="bi bi-search me-2"></i>Áp dụng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Load Sidebar -->
+    <script>
+        fetch('components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+                // Load sidebar JS after HTML is inserted
+                const script = document.createElement('script');
+                script.src = 'components/sidebar.js';
+                document.body.appendChild(script);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+
+    <!-- Advanced Filter Script -->
+    <script>
+        // Advanced Filter Toggle
+        const advancedSearchBtn = document.getElementById('advancedSearchBtn');
+        const advancedFilterSidebar = document.getElementById('advancedFilterSidebar');
+        const filterOverlay = document.getElementById('filterOverlay');
+        const closeFilterBtn = document.getElementById('closeFilterBtn');
+
+        function openAdvancedFilter() {
+            advancedFilterSidebar.classList.add('active');
+            filterOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAdvancedFilter() {
+            advancedFilterSidebar.classList.remove('active');
+            filterOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        advancedSearchBtn.addEventListener('click', openAdvancedFilter);
+        closeFilterBtn.addEventListener('click', closeAdvancedFilter);
+        filterOverlay.addEventListener('click', closeAdvancedFilter);
+
+        // Form Submit
+        document.getElementById('advancedFilterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your search logic here
+            console.log('Advanced search submitted');
+            closeAdvancedFilter();
+            alert('Đang tìm kiếm với bộ lọc nâng cao...');
+        });
+
+        // ESC key to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && advancedFilterSidebar.classList.contains('active')) {
+                closeAdvancedFilter();
+            }
+        });
+    </script>
+</body>
+</html>
