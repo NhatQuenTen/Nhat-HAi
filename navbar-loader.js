@@ -40,11 +40,11 @@ function setActiveNavLink() {
 
 // Khởi tạo event handlers cho navbar
 function initNavbarEvents() {
-    // Event cho nút employer
+    // Event cho nút employer - Chuyển đến trang đăng nhập
     const employerBtn = document.querySelector('.btn-nav-employer');
     if (employerBtn) {
         employerBtn.addEventListener('click', function() {
-            alert('Chức năng đăng ký/đăng nhập cho nhà tuyển dụng sẽ được triển khai.');
+            window.location.href = 'DangNhap.html';
         });
     }
 
