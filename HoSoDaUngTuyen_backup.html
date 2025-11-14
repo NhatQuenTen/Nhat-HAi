@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Đã Ứng Tuyển - Tìm Việc Nhanh</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Global Sidebar CSS -->
+    <link rel="stylesheet" href="css/style-global.css">
+</head>
+<body class="with-sidebar">
+    
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper" id="mainContent">
+        <div class="container-fluid px-4 py-4">
+            <!-- Page Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="fw-bold mb-2" style="color: var(--text-dark);">
+                        <i class="bi bi-file-earmark-person me-2"></i>
+                        Hồ Sơ Đã Ứng Tuyển
+                    </h2>
+                    <p class="text-muted mb-0">Quản lý và đánh giá ứng viên đã nộp hồ sơ</p>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="card-custom mb-4">
+                <div class="card-body">
+                    <!-- Row 1: Main Filters -->
+                    <div class="row g-3 mb-3">
+                        <!-- Bộ lọc tin đăng -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold mb-2">
+                                <i class="bi bi-funnel me-1"></i>
+                                Tin đăng
+                            </label>
+                            <select class="form-select" id="filterByJob" style="border: 2px solid #e5e7eb; border-radius: var(--border-radius-sm);">
+                                <option value="">Tất cả tin đăng</option>
+                                <option value="job1">Tuyển dụng Frontend Developer</option>
+                                <option value="job2">Tuyển dụng Backend Developer</option>
+                                <option value="job3">Tuyển dụng Full-stack Developer</option>
+                            </select>
+                        </div>
+
+                        <!-- Search Box -->
+                        <div class="col-md-5">
+                            <label class="form-label fw-semibold mb-2">
+                                <i class="bi bi-search me-1"></i>
+                                Tìm kiếm
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control ps-5" id="searchInput" placeholder="Tìm theo tên, email, số điện thoại..." 
+                                       style="border: 2px solid #e5e7eb; border-radius: var(--border-radius-sm);">
+                                <i class="bi bi-search position-absolute" style="left: 1rem; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold mb-2 d-block">&nbsp;</label>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary flex-fill" id="btnAdvancedFilter">
+                                    <i class="bi bi-sliders me-2"></i>
+                                    Lọc nâng cao
+                                </button>
+                                <button class="btn btn-outline-secondary flex-fill" id="btnTagFilter">
+                                    <i class="bi bi-tags me-2"></i>
+                                    Lọc thẻ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Status Filters -->
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-2">
+                                <i class="bi bi-filter-circle me-1"></i>
+                                Trạng thái
+                            </label>
+                            <div class="d-flex flex-wrap gap-2" id="statusFilters">
+                                <button type="button" class="btn-status-filter active" data-status="all">
+                                    <span class="status-text">Tất cả</span>
+                                    <span class="badge badge-all">5</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="pending">
+                                    <span class="status-text">Chờ đánh giá</span>
+                                    <span class="badge badge-pending">1</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="suitable">
+                                    <span class="status-text">Phù hợp</span>
+                                    <span class="badge badge-suitable">1</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="interviewing">
+                                    <span class="status-text">Đang phỏng vấn</span>
+                                    <span class="badge badge-interviewing">1</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="offered">
+                                    <span class="status-text">Đã gửi offer</span>
+                                    <span class="badge badge-offered">1</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="hired">
+                                    <span class="status-text">Đã tuyển</span>
+                                    <span class="badge badge-hired">0</span>
+                                </button>
+                                <button type="button" class="btn-status-filter" data-status="rejected">
+                                    <span class="status-text">Không phù hợp</span>
+                                    <span class="badge badge-rejected">1</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Export Button -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-primary" id="btnExportList">
+                                <i class="bi bi-download me-2"></i>
+                                Tải danh sách
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Bar -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="text-muted">Hiển thị <strong id="displayCount">0</strong> hồ sơ</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted mb-0">Sắp xếp theo:</label>
+                    <select class="form-select" id="sortBy" style="width: auto; border: 2px solid #e5e7eb; border-radius: var(--border-radius-sm);">
+                        <option value="default">Mặc định</option>
+                        <option value="match-asc">Mức độ phù hợp tăng dần</option>
+                        <option value="match-desc">Mức độ phù hợp giảm dần</option>
+                        <option value="name-asc">Theo tên A–Z</option>
+                        <option value="name-desc">Theo tên Z–A</option>
+                        <option value="date-asc">Ngày ứng tuyển cũ nhất</option>
+                        <option value="date-desc">Ngày ứng tuyển mới nhất</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Applications Table -->
+            <div class="card-custom">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="applicationsTable">
+                        <thead style="background-color: var(--light-gray);">
+                            <tr>
+                                <th class="px-4 py-3">
+                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                </th>
+                                <th class="px-4 py-3">Tên hồ sơ</th>
+                                <th class="px-4 py-3 text-center">Mức độ phù hợp</th>
+                                <th class="px-4 py-3">Tin đăng</th>
+                                <th class="px-4 py-3 text-center">Thời gian nộp</th>
+                                <th class="px-4 py-3 text-center">Trạng thái</th>
+                                <th class="px-4 py-3 text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTableBody">
+                            <!-- Empty State -->
+                            <tr class="empty-state">
+                                <td colspan="7" class="text-center py-5">
+                                    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px;">
+                                        <div class="mb-4" style="font-size: 5rem; color: var(--text-gray); opacity: 0.3;">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                            <i class="bi bi-search" style="font-size: 3rem; margin-left: -2rem; margin-top: 2rem;"></i>
+                                        </div>
+                                        <h5 class="text-muted fw-semibold mb-2">Chưa có ứng viên ứng tuyển</h5>
+                                        <p class="text-muted mb-0">Các hồ sơ ứng tuyển sẽ hiển thị tại đây</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="card-footer bg-white border-top-0 pt-3" id="paginationContainer" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted">
+                            Hiển thị <span id="showingFrom">1</span> đến <span id="showingTo">10</span> trong tổng số <span id="totalRecords">0</span> hồ sơ
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0" id="pagination">
+                                <!-- Pagination items will be generated by JS -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Message -->
+            <div class="alert alert-info mt-4 mb-0 d-flex align-items-center" style="border-radius: var(--border-radius); border-left: 4px solid var(--primary-blue);">
+                <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+                <div>
+                    <strong>Lưu ý:</strong> Hồ sơ sẽ bị xóa khỏi trang hồ sơ ứng tuyển sau <strong>12 tháng</strong> kể từ ngày ứng tuyển.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Filter Modal -->
+    <div class="modal fade" id="advancedFilterModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border-radius: var(--border-radius);">
+                <div class="modal-header" style="background-color: var(--light-gray);">
+                    <h5 class="modal-title fw-bold">
+                        <i class="bi bi-sliders me-2"></i>
+                        Lọc nâng cao
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    <div class="row g-4">
+                        <!-- Mức lương -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-cash-stack me-2 text-primary"></i>
+                                Mức lương
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary1" value="1-3">
+                                        <label class="form-check-label" for="salary1">1 - 3 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary2" value="3-5">
+                                        <label class="form-check-label" for="salary2">3 - 5 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary3" value="5-7">
+                                        <label class="form-check-label" for="salary3">5 - 7 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary4" value="7-10">
+                                        <label class="form-check-label" for="salary4">7 - 10 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary5" value="10-15">
+                                        <label class="form-check-label" for="salary5">10 - 15 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary6" value="15-20">
+                                        <label class="form-check-label" for="salary6">15 - 20 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary7" value="20-30">
+                                        <label class="form-check-label" for="salary7">20 - 30 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary8" value="30-50">
+                                        <label class="form-check-label" for="salary8">30 - 50 triệu</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Mức lương/tháng, VNĐ">
+                                        <input class="form-check-input" type="checkbox" id="salary9" value="50+">
+                                        <label class="form-check-label" for="salary9">Trên 50 triệu</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Kinh nghiệm -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-award me-2 text-primary"></i>
+                                Kinh nghiệm
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp0" value="0">
+                                        <label class="form-check-label" for="exp0">Chưa có kinh nghiệm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp1" value="<1">
+                                        <label class="form-check-label" for="exp1">Dưới 1 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp2" value="1">
+                                        <label class="form-check-label" for="exp2">1 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp3" value="2">
+                                        <label class="form-check-label" for="exp3">2 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp4" value="3">
+                                        <label class="form-check-label" for="exp4">3 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp5" value="4">
+                                        <label class="form-check-label" for="exp5">4 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp6" value="5">
+                                        <label class="form-check-label" for="exp6">5 năm</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="exp7" value=">5">
+                                        <label class="form-check-label" for="exp7">Hơn 5 năm</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Học vấn -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-mortarboard me-2 text-primary"></i>
+                                Học vấn
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu1" value="postgraduate">
+                                        <label class="form-check-label" for="edu1">Trên đại học</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu2" value="university">
+                                        <label class="form-check-label" for="edu2">Đại học</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu3" value="college">
+                                        <label class="form-check-label" for="edu3">Cao đẳng</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu4" value="intermediate">
+                                        <label class="form-check-label" for="edu4">Trung cấp</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu5" value="highschool">
+                                        <label class="form-check-label" for="edu5">Trung học</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edu6" value="certificate">
+                                        <label class="form-check-label" for="edu6">Chứng chỉ nghề</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Thời hạn nộp -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-calendar-check me-2 text-primary"></i>
+                                Thời hạn nộp (thời gian từ ngày nộp)
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline1" value="3d">
+                                        <label class="form-check-label" for="deadline1">3 ngày</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline2" value="1w">
+                                        <label class="form-check-label" for="deadline2">1 tuần</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline3" value="1m">
+                                        <label class="form-check-label" for="deadline3">1 tháng</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline4" value="2m">
+                                        <label class="form-check-label" for="deadline4">2 tháng</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline5" value="3m">
+                                        <label class="form-check-label" for="deadline5">3 tháng</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="deadline6" value="6m">
+                                        <label class="form-check-label" for="deadline6">6 tháng</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Nguồn hồ sơ -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-globe me-2 text-primary"></i>
+                                Nguồn hồ sơ
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="source1" value="vieclam24h">
+                                        <label class="form-check-label" for="source1">Vieclam24h.vn</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="source2" value="vieclamsales">
+                                        <label class="form-check-label" for="source2">Vieclamsales.vn</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="source3" value="internhub">
+                                        <label class="form-check-label" for="source3">Internhub</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="source4" value="other">
+                                        <label class="form-check-label" for="source4">Khác</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Ghi chú -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-sticky me-2 text-primary"></i>
+                                Ghi chú
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="note1" value="no-note">
+                                        <label class="form-check-label" for="note1">Không có ghi chú</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="note2" value="has-note">
+                                        <label class="form-check-label" for="note2">Có ghi chú</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Trạng thái tìm việc -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-briefcase-fill me-2 text-primary"></i>
+                                Trạng thái tìm việc
+                            </label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="jobStatus1" value="ready">
+                                <label class="form-check-label" for="jobStatus1">Sẵn sàng đi làm ngay</label>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Hôn nhân -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-heart me-2 text-primary"></i>
+                                Hôn nhân
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="marriage1" value="single">
+                                        <label class="form-check-label" for="marriage1">Độc thân</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="marriage2" value="married">
+                                        <label class="form-check-label" for="marriage2">Đã lập gia đình</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Giới tính -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-gender-ambiguous me-2 text-primary"></i>
+                                Giới tính
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gender1" value="female">
+                                        <label class="form-check-label" for="gender1">Nữ</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gender2" value="male">
+                                        <label class="form-check-label" for="gender2">Nam</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <!-- Trạng thái CV -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                                Trạng thái CV
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cvStatus1" value="unread">
+                                        <label class="form-check-label" for="cvStatus1">Chưa xem</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cvStatus2" value="read">
+                                        <label class="form-check-label" for="cvStatus2">Đã xem</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-link text-danger text-decoration-none" id="clearAdvancedFilter">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>
+                        Xóa bộ lọc
+                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-1"></i>
+                            Đóng
+                        </button>
+                        <button type="button" class="btn btn-primary" id="applyAdvancedFilter">
+                            <i class="bi bi-check-lg me-1"></i>
+                            Áp dụng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Filter Modal -->
+    <div class="modal fade" id="tagFilterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: var(--border-radius);">
+                <div class="modal-header" style="background-color: var(--light-gray);">
+                    <h5 class="modal-title fw-bold">
+                        <i class="bi bi-tags me-2"></i>
+                        Lọc theo thẻ
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Chọn thẻ</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-star-fill me-1"></i>
+                                Ứng viên tiềm năng
+                            </button>
+                            <button class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-bookmark-fill me-1"></i>
+                                Đã lưu
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm">
+                                <i class="bi bi-flag-fill me-1"></i>
+                                Cần xem lại
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-exclamation-circle-fill me-1"></i>
+                                Ưu tiên cao
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="applyTagFilter">Áp dụng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Candidate Detail Modal -->
+    <div class="candidate-detail-modal" id="candidateDetailModal">
+        <div class="candidate-detail-content">
+            <div class="modal-header-custom">
+                <button class="modal-close-btn" id="closeCandidateModalBtn">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+                <div class="text-center">
+                    <div class="candidate-avatar-large mx-auto">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <h3 class="mb-2" id="candidateName">Nguyễn Văn A</h3>
+                    <p class="mb-1 opacity-90" id="candidatePosition">Senior Developer</p>
+                    <span class="status-badge-modal status-looking" id="candidateStatus">
+                        <i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i>
+                        Đang tìm việc
+                    </span>
+                </div>
+            </div>
+
+            <div class="candidate-detail-body">
+                <!-- Thông tin cơ bản -->
+                <div class="info-section">
+                    <h4 class="section-title">
+                        <i class="bi bi-person-badge"></i>
+                        Thông tin cơ bản
+                    </h4>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-envelope"></i>
+                            Email
+                        </div>
+                        <div class="info-value" id="candidateEmail">nguyenvana@email.com</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-telephone"></i>
+                            Số điện thoại
+                        </div>
+                        <div class="info-value" id="candidatePhone">0912345678</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-briefcase"></i>
+                            Tin đăng ứng tuyển
+                        </div>
+                        <div class="info-value" id="candidateJobTitle">Tuyển dụng Frontend Developer</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-calendar-check"></i>
+                            Ngày ứng tuyển
+                        </div>
+                        <div class="info-value" id="candidateAppliedDate">01/11/2024</div>
+                    </div>
+                </div>
+
+                <!-- Trình độ & Kinh nghiệm -->
+                <div class="info-section">
+                    <h4 class="section-title">
+                        <i class="bi bi-mortarboard"></i>
+                        Trình độ & Kinh nghiệm
+                    </h4>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-award"></i>
+                            Kinh nghiệm
+                        </div>
+                        <div class="info-value" id="candidateExperience">5 năm</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-percent"></i>
+                            Mức độ phù hợp
+                        </div>
+                        <div class="info-value" id="candidateMatchScore">85%</div>
+                    </div>
+                </div>
+
+                <!-- Kỹ năng -->
+                <div class="info-section">
+                    <h4 class="section-title">
+                        <i class="bi bi-lightning"></i>
+                        Kỹ năng
+                    </h4>
+                    <div id="candidateSkills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                    </div>
+                </div>
+
+                <!-- Trạng thái xử lý -->
+                <div class="info-section">
+                    <h4 class="section-title">
+                        <i class="bi bi-clipboard-check"></i>
+                        Trạng thái xử lý
+                    </h4>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-info-circle"></i>
+                            Trạng thái hiện tại
+                        </div>
+                        <div class="info-value">
+                            <span class="status-badge bg-success" id="candidateCurrentStatus">Phù hợp</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Thay đổi trạng thái
+                        </div>
+                        <div class="info-value">
+                            <select class="form-select form-select-sm" id="changeStatusSelect" style="width: 200px;">
+                                <option value="pending">Chờ đánh giá</option>
+                                <option value="suitable">Phù hợp</option>
+                                <option value="interviewing">Đang phỏng vấn</option>
+                                <option value="offered">Đã gửi offer</option>
+                                <option value="hired">Đã tuyển</option>
+                                <option value="rejected">Không phù hợp</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-outline-secondary flex-grow-1">
+                    <i class="bi bi-download me-2"></i>
+                    Tải CV
+                </button>
+                <button class="btn btn-outline-primary flex-grow-1">
+                    <i class="bi bi-bookmark me-2"></i>
+                    Lưu hồ sơ
+                </button>
+                <button class="btn btn-primary flex-grow-1">
+                    <i class="bi bi-envelope me-2"></i>
+                    Liên hệ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Load Sidebar -->
+    <script>
+        fetch('components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+                // Load sidebar JS after HTML is inserted
+                const script = document.createElement('script');
+                script.src = 'components/sidebar.js';
+                document.body.appendChild(script);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+    
+    <!-- Application Script -->
+    <script src="HoSoDaUngTuyen.js"></script>
+
+</body>
+</html>
+        /* Card Custom */
+        .card-custom {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border: none;
+        }
+
+        /* Status Filter Buttons - Fix all text disappearing issues */
+        .btn-status-filter {
+            position: relative;
+            padding: 0.65rem 1.2rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background-color: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            outline: none;
+            /* Fix focus outline */
+            outline-offset: 2px;
+        }
+        
+        /* Prevent :active pseudo-class from hiding text */
+        .btn-status-filter:active,
+        .btn-status-filter:focus {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 2px;
+        }
+        
+        /* Status text - ALWAYS visible with explicit color */
+        .btn-status-filter .status-text {
+            display: inline-block !important;
+            color: #1f2937 !important;
+            font-weight: 500;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Badge styling - ALWAYS visible */
+        .btn-status-filter .badge {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 8px;
+            background-color: #e5e7eb !important;
+            color: #1f2937 !important;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Badge colors for each status */
+        .btn-status-filter .badge-all {
+            background-color: #6b7280 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter .badge-pending {
+            background-color: #fbbf24 !important;
+            color: #1f2937 !important;
+        }
+        
+        .btn-status-filter .badge-suitable {
+            background-color: #10b981 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter .badge-interviewing {
+            background-color: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter .badge-offered {
+            background-color: #8b5cf6 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter .badge-hired {
+            background-color: #059669 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter .badge-rejected {
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
+        }
+
+        /* Hover state - text stays visible */
+        .btn-status-filter:hover {
+            border-color: var(--primary-blue);
+            background-color: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(33, 118, 255, 0.15);
+        }
+        
+        .btn-status-filter:hover .status-text {
+            color: var(--primary-blue) !important;
+        }
+        
+        .btn-status-filter:hover .badge {
+            background-color: #dbeafe !important;
+            color: var(--primary-blue) !important;
+        }
+        
+        /* Keep badge colors on hover */
+        .btn-status-filter:hover .badge-all {
+            background-color: #4b5563 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter:hover .badge-pending {
+            background-color: #f59e0b !important;
+            color: #1f2937 !important;
+        }
+        
+        .btn-status-filter:hover .badge-suitable {
+            background-color: #059669 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter:hover .badge-interviewing {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter:hover .badge-offered {
+            background-color: #7c3aed !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter:hover .badge-hired {
+            background-color: #047857 !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-status-filter:hover .badge-rejected {
+            background-color: #dc2626 !important;
+            color: #ffffff !important;
+        }
+
+        /* Active state - FORCE white text to show */
+        .btn-status-filter.active {
+            border-color: var(--primary-blue) !important;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%) !important;
+            box-shadow: 0 6px 12px rgba(33, 118, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-status-filter.active .status-text {
+            color: #1f2937 !important;
+            font-weight: 600 !important;
+        }
+
+        .btn-status-filter.active .badge {
+            background-color: #1f2937 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+        
+        /* Override any Bootstrap or global styles */
+        .btn-status-filter * {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Form Check Styles for Advanced Filter */
+        #advancedFilterModal .form-check {
+            padding: 0.75rem;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        #advancedFilterModal .form-check:hover {
+            background-color: var(--primary-light);
+        }
+
+        #advancedFilterModal .form-check-input:checked ~ .form-check-label {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        #advancedFilterModal .form-check-input:checked {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        #advancedFilterModal .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.125rem;
+            cursor: pointer;
+        }
+
+        #advancedFilterModal .form-check-label {
+            cursor: pointer;
+            user-select: none;
+            margin-left: 0.5rem;
+        }
+
+        /* Table Styles */
+        .table th {
+            font-weight: 600;
+            color: var(--text-dark);
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr {
+            transition: var(--transition);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        /* Match Score Badge */
+        .match-score {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .match-high {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .match-medium {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .match-low {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-custom {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Avatar Circle */
+        .avatar-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Empty state animation */
+        .empty-state i {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Candidate Detail Modal Styles */
+        .candidate-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1060;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .candidate-detail-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .candidate-detail-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header-custom {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem 1rem 0 0;
+            position: relative;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .candidate-avatar-large {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .candidate-detail-body {
+            padding: 2rem;
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #3b82f6;
+        }
+
+        .info-row {
+            display: flex;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #64748b;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-value {
+            color: #1e293b;
+            flex: 1;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .status-badge-modal {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-looking {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .candidate-detail-content {
+                max-height: 95vh;
+                margin: 1rem;
+            }
+
+            .modal-header-custom {
+                padding: 1.5rem;
+            }
+
+            .candidate-detail-body {
+                padding: 1rem;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .info-label {
+                min-width: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                padding: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>
