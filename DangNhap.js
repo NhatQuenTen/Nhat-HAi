@@ -163,15 +163,14 @@ function validateLoginForm(emailOrPhone, password) {
 // Handle login form submission
 document.addEventListener('DOMContentLoaded', function() {
     // Check if already logged in
-    if (auth.currentUser) {
-        const confirmRedirect = confirm('Bạn đã đăng nhập rồi! Chuyển đến trang chủ?');
-        if (confirmRedirect) {
-            window.location.href = 'TimUngVien.html';
-            return;
-        } else {
-            auth.logout();
-        }
+    if (window.location.pathname.includes('DangNhap.html') && auth.currentUser) {
+    const confirmRedirect = confirm('Bạn đã đăng nhập rồi! Chuyển đến trang chủ?');
+    if (confirmRedirect) {
+        window.location.href = 'TimUngVien.html';
+        return;
     }
+    // else không làm gì, giữ currentUser
+}
 
     // Load remembered user
     const rememberMe = localStorage.getItem('rememberMe');

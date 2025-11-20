@@ -974,3 +974,28 @@ button[type="submit"]:hover {
     max-width: 700px;  
     margin: 40px auto 0 auto;
 }
+.main-caidat h3{
+    text-align: center;
+}
+
+ #logoutBtn{
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+}
+ #logoutBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}   
+.main-caidat label{
+    font-size: 17px;
+}
+.main-caidat input{
+    margin-bottom: 15px;
+}
