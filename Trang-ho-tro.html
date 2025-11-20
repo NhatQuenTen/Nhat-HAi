@@ -29,7 +29,7 @@
                 trợ kịp thời.</p>
        <div class="form-container">
   <div class="form-left">
-    <form>
+    <form id="supportForm">
       <div class="form-row">
         <label for="topic">Chủ đề trợ giúp:</label>
         <select id="topic" name="topic">
@@ -81,5 +81,30 @@
             })
             .catch(error => console.error('Error loading sidebar:', error));
     </script>
+    <script>
+document.getElementById("supportForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Không reload trang
+
+    let topic = document.getElementById("topic").value;
+    let content = document.getElementById("content").value.trim();
+
+    // Kiểm tra dữ liệu
+    if (topic === "") {
+        alert("Vui lòng chọn chủ đề trợ giúp.");
+        return;
+    }
+
+    if (content === "") {
+        alert("Vui lòng nhập nội dung.");
+        return;
+    }
+
+    // Nếu hợp lệ → thông báo gửi thành công
+    alert("Đã gửi yêu cầu thành công!");
+
+    // Reset form
+    this.reset();
+});
+</script>
 </body>
 </html>
