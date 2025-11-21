@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentication Flow - Tìm Việc Nhanh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2176FF;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .user-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .badge-custom {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-employer {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .btn-action {
+            margin-left: 8px;
+        }
+        .current-session {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2176FF;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-card">
+            <h1 class="test-title">
+                <i class="bi bi-shield-check me-2"></i>
+                Test Authentication Flow
+            </h1>
+            <p class="text-muted">Kiểm tra luồng đăng ký → đăng nhập → cài đặt</p>
+
+            <!-- Stats -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Tổng người dùng</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-number" id="employerCount">0</div>
+                        <div class="stat-label">Nhà tuyển dụng</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-number" id="sessionStatus">❌</div>
+                        <div class="stat-label">Trạng thái đăng nhập</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Session -->
+            <div class="section-title">
+                <i class="bi bi-person-check-fill me-2"></i>
+                Phiên đăng nhập hiện tại
+            </div>
+            <div id="currentSession"></div>
+
+            <!-- Users List -->
+            <div class="section-title">
+                <i class="bi bi-people-fill me-2"></i>
+                Danh sách người dùng đã đăng ký
+            </div>
+            <div id="usersList"></div>
+
+            <!-- Quick Actions -->
+            <div class="section-title">
+                <i class="bi bi-lightning-fill me-2"></i>
+                Hành động nhanh
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-primary" onclick="window.location.href='DangKy.html'">
+                    <i class="bi bi-person-plus-fill me-2"></i>Đăng ký tài khoản mới
+                </button>
+                <button class="btn btn-success" onclick="window.location.href='DangNhap.html'">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                </button>
+                <button class="btn btn-info" onclick="window.location.href='Trang-cai-dat.html'">
+                    <i class="bi bi-gear-fill me-2"></i>Xem trang cài đặt
+                </button>
+                <button class="btn btn-warning" onclick="logout()">
+                    <i class="bi bi-box-arrow-left me-2"></i>Đăng xuất
+                </button>
+                <button class="btn btn-danger" onclick="clearAll()">
+                    <i class="bi bi-trash-fill me-2"></i>Xóa tất cả dữ liệu
+                </button>
+            </div>
+
+            <!-- Instructions -->
+            <div class="alert alert-info mt-4">
+                <h6><i class="bi bi-info-circle-fill me-2"></i>Hướng dẫn test:</h6>
+                <ol class="mb-0">
+                    <li><strong>Đăng ký:</strong> Nhấn "Đăng ký tài khoản mới" → Điền form → Submit</li>
+                    <li><strong>Đăng nhập:</strong> Sau khi đăng ký xong sẽ redirect về trang đăng nhập → Nhập email/phone và password</li>
+                    <li><strong>Cài đặt:</strong> Sau khi đăng nhập → Vào sidebar chọn "Cài đặt" hoặc nhấn nút "Xem trang cài đặt"</li>
+                    <li><strong>Kiểm tra:</strong> Trong trang cài đặt, thông tin đã đăng ký sẽ tự động hiển thị và có thể chỉnh sửa</li>
+                </ol>
+            </div>
+
+            <!-- Sample Accounts -->
+            <div class="alert alert-success mt-3">
+                <h6><i class="bi bi-key-fill me-2"></i>Tài khoản mẫu sẵn có:</h6>
+                <ul class="mb-0">
+                    <li><strong>Admin:</strong> Email: <code>admin@example.com</code> | Password: <code>12345678</code></li>
+                    <li><strong>User:</strong> Email: <code>user@example.com</code> | Password: <code>password123</code></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load and display data
+        function loadData() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            // Update stats
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('employerCount').textContent = users.filter(u => u.accountType === 'employer').length;
+            document.getElementById('sessionStatus').textContent = currentUser ? '✅' : '❌';
+
+            // Display current session
+            const sessionDiv = document.getElementById('currentSession');
+            if (currentUser) {
+                const userData = users.find(u => u.id === currentUser.id);
+                if (userData) {
+                    sessionDiv.innerHTML = `
+                        <div class="user-item current-session">
+                            <div class="user-info">
+                                <strong>${userData.fullName}</strong><br>
+                                <small class="text-muted">${userData.email} | ${userData.phone}</small><br>
+                                <small class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Đang đăng nhập</small>
+                            </div>
+                            <div>
+                                <span class="badge-custom badge-employer">${userData.accountType === 'employer' ? 'Nhà tuyển dụng' : 'Ứng viên'}</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    sessionDiv.innerHTML = '<p class="text-warning">Phiên đăng nhập không hợp lệ</p>';
+                }
+            } else {
+                sessionDiv.innerHTML = '<p class="text-muted">Chưa có phiên đăng nhập nào</p>';
+            }
+
+            // Display users list
+            const usersDiv = document.getElementById('usersList');
+            if (users.length === 0) {
+                usersDiv.innerHTML = '<p class="text-muted">Chưa có người dùng nào đăng ký</p>';
+            } else {
+                usersDiv.innerHTML = users.map(user => {
+                    const isCurrentUser = currentUser && currentUser.id === user.id;
+                    return `
+                        <div class="user-item ${isCurrentUser ? 'current-session' : ''}">
+                            <div class="user-info">
+                                <strong>${user.fullName}</strong>
+                                ${isCurrentUser ? '<i class="bi bi-check-circle-fill text-success ms-1"></i>' : ''}<br>
+                                <small class="text-muted">
+                                    ${user.email} | ${user.phone}<br>
+                                    ${user.companyName ? `<i class="bi bi-building me-1"></i>${user.companyName}` : ''}
+                                </small>
+                            </div>
+                            <div>
+                                <span class="badge-custom badge-employer">${user.accountType === 'employer' ? 'Nhà tuyển dụng' : 'Ứng viên'}</span>
+                                <button class="btn btn-sm btn-outline-primary btn-action" onclick="loginAs(${user.id})">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger btn-action" onclick="deleteUser(${user.id})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Login as specific user
+        function loginAs(userId) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.id === userId);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify({
+                    id: user.id,
+                    email: user.email,
+                    phone: user.phone,
+                    loginTime: new Date().toISOString()
+                }));
+                
+                alert(`Đã đăng nhập với tài khoản: ${user.email}`);
+                loadData();
+            }
+        }
+
+        // Delete user
+        function deleteUser(userId) {
+            if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser && currentUser.id === userId) {
+                    localStorage.removeItem('currentUser');
+                }
+                
+                loadData();
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('currentUser');
+            alert('Đã đăng xuất!');
+            loadData();
+        }
+
+        // Clear all data
+        function clearAll() {
+            if (confirm('Bạn có chắc muốn xóa TẤT CẢ dữ liệu? Hành động này không thể hoàn tác!')) {
+                localStorage.removeItem('users');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('rememberMe');
+                localStorage.removeItem('lastUser');
+                alert('Đã xóa tất cả dữ liệu!');
+                loadData();
+            }
+        }
+
+        // Auto refresh every 2 seconds
+        setInterval(loadData, 2000);
+
+        // Initial load
+        loadData();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

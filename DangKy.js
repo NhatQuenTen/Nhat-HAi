@@ -94,12 +94,33 @@ class RegistrationSystem {
             throw new Error('Số điện thoại đã được đăng ký!');
         }
 
-        // Create new user
+        // Create new user with full information
         const newUser = {
             id: this.generateId(),
-            ...userData,
+            accountType: userData.accountType || 'employer',
+            fullName: userData.fullName,
+            email: userData.email,
+            phone: userData.phone,
+            password: userData.password,
+            companyName: userData.companyName || '',
+            companySize: userData.companySize || '',
             createdAt: new Date().toISOString(),
-            verified: false
+            verified: false,
+            loginAlert: true,
+            // Company data structure for settings page
+            companyData: {
+                name: userData.companyName || '',
+                size: userData.companySize || '',
+                taxCode: '',
+                location: '',
+                address: '',
+                phone: '',
+                industries: []
+            },
+            // Contact info
+            contactEmail: userData.email,
+            address: '',
+            avatar: ''
         };
 
         // Add to users array

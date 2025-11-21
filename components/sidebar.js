@@ -45,8 +45,14 @@ class SidebarManager {
         // Set active menu based on current page
         this.setActiveMenu();
 
+        // Update user info in sidebar footer
+        this.updateUserInfo();
+
         // Bind events
         this.bindEvents();
+
+        // Bind user menu events
+        this.bindUserMenuEvents();
 
         // Check mobile on resize
         this.handleResize();
@@ -261,6 +267,121 @@ class SidebarManager {
         // You can implement a dropdown menu here
         console.log('User menu clicked');
         // Example: Show a modal or dropdown with user options
+    }
+
+    bindUserMenuEvents() {
+        const sidebarUser = this.sidebar.querySelector('#sidebarUser');
+        const userMenu = this.sidebar.querySelector('#sidebarUserMenu');
+        const logoutBtn = this.sidebar.querySelector('#logoutBtn');
+
+        if (!sidebarUser || !userMenu) return;
+
+        // Toggle user menu on click
+        sidebarUser.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('show');
+            
+            // Update chevron direction
+            const chevron = sidebarUser.querySelector('.sidebar-user-dropdown i');
+            if (chevron) {
+                if (userMenu.classList.contains('show')) {
+                    chevron.classList.remove('bi-chevron-up');
+                    chevron.classList.add('bi-chevron-down');
+                } else {
+                    chevron.classList.remove('bi-chevron-down');
+                    chevron.classList.add('bi-chevron-up');
+                }
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (userMenu && !sidebarUser.contains(e.target)) {
+                userMenu.classList.remove('show');
+                const chevron = sidebarUser.querySelector('.sidebar-user-dropdown i');
+                if (chevron) {
+                    chevron.classList.remove('bi-chevron-down');
+                    chevron.classList.add('bi-chevron-up');
+                }
+            }
+        });
+
+        // Handle logout
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLogout();
+            });
+        }
+    }
+
+    handleLogout() {
+        // Show confirmation
+        if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+            // Clear current user session
+            localStorage.removeItem('currentUser');
+            
+            // Show notification
+            this.showLogoutNotification();
+            
+            // Redirect to login page after a short delay
+            setTimeout(() => {
+                window.location.href = 'DangNhap.html';
+            }, 1000);
+        }
+    }
+
+    showLogoutNotification() {
+        // Create toast notification
+        const toast = document.createElement('div');
+        toast.className = 'logout-toast';
+        toast.innerHTML = `
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Đăng xuất thành công!</span>
+        `;
+        document.body.appendChild(toast);
+
+        // Show toast
+        setTimeout(() => toast.classList.add('show'), 100);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    updateUserInfo() {
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) return;
+
+        // Get full user data
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userData = users.find(u => u.id === currentUser.id);
+        if (!userData) return;
+
+        // Update avatar
+        const avatarElement = this.sidebar.querySelector('.sidebar-user-avatar');
+        if (avatarElement) {
+            if (userData.avatar) {
+                avatarElement.innerHTML = `<img src="${userData.avatar}" alt="Avatar">`;
+            } else {
+                avatarElement.innerHTML = '<i class="bi bi-person-circle"></i>';
+            }
+        }
+
+        // Update name
+        const nameElement = this.sidebar.querySelector('.sidebar-user-name');
+        if (nameElement) {
+            nameElement.textContent = userData.companyName || userData.fullName || 'Người dùng';
+        }
+
+        // Update email
+        const emailElement = this.sidebar.querySelector('.sidebar-user-email');
+        if (emailElement) {
+            emailElement.textContent = userData.email || userData.phone || '';
+        }
     }
 
     saveState() {

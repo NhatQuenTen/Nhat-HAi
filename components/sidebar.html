@@ -55,7 +55,7 @@
 
             <!-- Hồ sơ đã lưu -->
             <li class="sidebar-menu-item">
-                <a href="#" class="sidebar-link" data-route="ho-so-luu" data-tooltip="Hồ sơ đã lưu">
+                <a href="HoSoDaLuu.html" class="sidebar-link" data-route="ho-so-luu" data-tooltip="Hồ sơ đã lưu">
                     <i class="bi bi-bookmark-fill"></i>
                     <span class="sidebar-text">Hồ sơ đã lưu</span>
                 </a>
@@ -84,7 +84,7 @@
 
     <!-- Footer -->
     <div class="sidebar-footer">
-        <div class="sidebar-user">
+        <div class="sidebar-user" id="sidebarUser">
             <div class="sidebar-user-avatar">
                 <i class="bi bi-person-circle"></i>
             </div>
@@ -92,6 +92,21 @@
                 <div class="sidebar-user-name">Công ty ABC</div>
                 <div class="sidebar-user-email">company@example.com</div>
             </div>
+            <div class="sidebar-user-dropdown">
+                <i class="bi bi-chevron-up"></i>
+            </div>
+        </div>
+        
+        <!-- User Menu Dropdown -->
+        <div class="sidebar-user-menu" id="sidebarUserMenu">
+            <a href="Trang-cai-dat.html" class="user-menu-item">
+                <i class="bi bi-person-gear"></i>
+                <span>Đổi tài khoản</span>
+            </a>
+            <button class="user-menu-item" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Đăng xuất</span>
+            </button>
         </div>
     </div>
 </aside>

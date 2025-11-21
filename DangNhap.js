@@ -71,16 +71,20 @@ class AuthSystem {
             throw new Error('Mật khẩu không chính xác!');
         }
 
-        // Set login session
+        // Set login session - lưu đầy đủ thông tin để trang cài đặt sử dụng
         this.setCurrentUser({
             id: user.id,
             email: user.email,
-            fullName: user.fullName,
             phone: user.phone,
-            accountType: user.accountType,
-            companyName: user.companyName,
             loginTime: new Date().toISOString()
         });
+
+        // Update last login time in users array
+        const userIndex = this.users.findIndex(u => u.id === user.id);
+        if (userIndex !== -1) {
+            this.users[userIndex].lastLogin = new Date().toISOString();
+            this.saveUsers();
+        }
 
         // Remember me feature
         if (rememberMe) {
@@ -91,7 +95,7 @@ class AuthSystem {
             localStorage.removeItem('lastUser');
         }
 
-        return this.currentUser;
+        return user;
     }
 }
 
@@ -286,23 +290,53 @@ if (localStorage.getItem('users') === null) {
     const sampleUsers = [
         {
             id: 1,
-            email: 'admin@example.com',
-            password: '12345678',
-            fullName: 'Quản Trị Viên',
-            phone: '0123456789',
             accountType: 'employer',
-            companyName: 'Công ty ABC',
+            fullName: 'Quản Trị Viên',
+            email: 'admin@example.com',
+            phone: '0123456789',
+            password: '12345678',
+            companyName: 'Công ty TNHH ABC',
             companySize: '51-200 nhân viên',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            verified: true,
+            loginAlert: true,
+            companyData: {
+                name: 'Công ty TNHH ABC',
+                size: '51-200 nhân viên',
+                taxCode: '0123456789',
+                location: 'HCM',
+                address: '123 Nguyễn Huệ, Quận 1, TP.HCM',
+                phone: '02812345678',
+                industries: ['Công nghệ thông tin', 'Phát triển phần mềm và dịch vụ công nghệ thông tin (CNTT)']
+            },
+            contactEmail: 'admin@example.com',
+            address: '123 Nguyễn Huệ, Quận 1, TP.HCM',
+            avatar: ''
         },
         {
             id: 2,
-            email: 'user@example.com',
-            password: 'password123',
+            accountType: 'employer',
             fullName: 'Nguyễn Văn A',
+            email: 'user@example.com',
             phone: '0987654321',
-            accountType: 'candidate',
-            createdAt: new Date().toISOString()
+            password: 'password123',
+            companyName: 'Công ty XYZ',
+            companySize: '1-50 nhân viên',
+            createdAt: new Date().toISOString(),
+            verified: false,
+            loginAlert: true,
+            companyData: {
+                name: 'Công ty XYZ',
+                size: '1-50 nhân viên',
+                taxCode: '',
+                location: '',
+                address: '',
+                phone: '',
+                industries: []
+            },
+            contactEmail: 'user@example.com',
+            address: '',
+            avatar: ''
         }
     ];
     
