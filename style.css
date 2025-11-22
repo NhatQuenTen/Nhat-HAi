@@ -1,0 +1,451 @@
+/* -------------------- RESET CƠ BẢN -------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* -------------------- TOP BANNER -------------------- */
+.top-banner {
+  font-size: 14px;
+}
+
+/* -------------------- NAVBAR BOOTSTRAP -------------------- */
+.navbar {
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+}
+
+.btn-nav {
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.btn-nav-employer {
+  min-width: 160px;
+}
+
+.btn-nav-jobseeker {
+  min-width: 160px;
+}
+
+.btn-nav .btn-text {
+  text-align: left;
+  line-height: 1.2;
+}
+
+.btn-nav .btn-text span {
+  font-size: 14px;
+}
+
+.btn-nav .btn-text small {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* -------------------- BODY -------------------- */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+}
+
+/* -------------------- CONTENT WRAPPER -------------------- */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 120px);
+  background-color: #ecf0f1e3;
+}
+
+/* -------------------- SIDEBAR LEFT -------------------- */
+.sidebar-left {
+  width: 200px;
+  background-color: #ecf0f1e3;
+  padding: 20px 10px;
+  border-right: 1px solid #ddd;
+  font-weight: 500;
+}
+
+.sidebar-left ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sidebar-left ul li {
+  position: relative;
+  margin: 15px 0;
+  padding: 12px 15px;
+  color: #292828e3;
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid transparent;
+}
+
+.sidebar-left ul li:hover {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.sidebar-left ul li.active {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.sidebar-left ul li i {
+  min-width: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* Dropdown con */
+.sidebar-left ul li .dropdown {
+  display: none;
+  position: absolute;
+  left: 105%;
+  top: 0;
+  background-color: white;
+  border: 1px solid #007bff;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 180px;
+  z-index: 100;
+  padding: 5px 0;
+}
+
+.sidebar-left ul li:hover .dropdown {
+  display: block;
+}
+
+.sidebar-left ul li .dropdown li {
+  margin: 0;
+  padding: 12px 15px;
+  border-radius: 0;
+  border: none;
+}
+
+.sidebar-left ul li .dropdown li:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+.sidebar-left ul li .dropdown li:last-child {
+  border-radius: 0 0 10px 10px;
+}
+
+.sidebar-left ul li .dropdown li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.sidebar-left ul li .dropdown li:hover {
+  background-color: rgba(0, 123, 255, 0.08);
+  color: #007bff;
+}
+
+/* -------------------- MAIN CONTENT -------------------- */
+.main-content {
+  flex: 1;
+  display: flex;
+  background-color: #ecf0f1e3;
+  padding: 15px;
+  gap: 15px;
+}
+
+/* -------------------- MAIN LEFT MENU -------------------- */
+.main-left {
+  width: 240px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  height: fit-content;
+  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.main-left.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.main-left ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.main-left li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #292828e3;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.main-left .i1 {
+  margin-top: 0;
+}
+
+.main-left li:hover {
+  background-color: rgba(0, 123, 255, 0.08);
+  color: #007bff;
+}
+
+.main-left li.active {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+  border: 1px solid #007bff;
+}
+
+.main-left li i {
+  font-size: 18px;
+  min-width: 20px;
+}
+
+/* -------------------- MAIN RIGHT -------------------- */
+.main-right {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-height: 600px;
+}
+
+/* -------------------- THANH TRÊN CÙNG (.top) -------------------- */
+.main-right .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.main-right .top ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.main-right .top ul li {
+  background-color: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.main-right .top ul li:hover {
+  border-color: #007bff;
+  color: #007bff;
+  box-shadow: 0 3px 12px rgba(0, 123, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.main-right .top ul li i {
+  font-size: 16px;
+}
+
+/* -------------------- DROPDOWN "TẤT CẢ / MỚI NHẤT / CŨ NHẤT" -------------------- */
+.custom-select {
+  position: relative;
+  min-width: 130px;
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+}
+
+.custom-select .selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.custom-select:hover {
+  border-color: #007bff;
+  color: #007bff;
+  box-shadow: 0 3px 12px rgba(0, 123, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.custom-select .options {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.custom-select .options div {
+  padding: 12px 15px;
+  text-align: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.custom-select .options div:hover {
+  background-color: rgba(0,123,255,0.1);
+  color: #007bff;
+}
+
+.custom-select.active .options {
+  display: block;
+}
+
+/* -------------------- BẢNG DỮ LIỆU -------------------- */
+.data-table {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.data-table th {
+  padding: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.data-table td {
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #333;
+}
+
+.data-table tbody tr {
+  transition: all 0.2s;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f8f9ff;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.data-table tbody td:first-child {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.data-table tbody td:last-child {
+  font-weight: 600;
+  color: #28a745;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+@media (max-width: 1024px) {
+  .sidebar-left {
+    width: 80px;
+  }
+  
+  .sidebar-left ul li span {
+    display: none;
+  }
+  
+  .main-left {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  
+  .sidebar-left {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .sidebar-left ul {
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .sidebar-left ul li {
+    flex-shrink: 0;
+  }
+  
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .main-left {
+    width: 100%;
+  }
+  
+  .main-right .top ul {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .main-right .top ul li {
+    justify-content: center;
+  }
+}
+
+/* Xóa các CSS cũ không dùng nữa */
+
+  /* Các rule này sẽ bị ghi đè bởi Bootstrap và CSS mới */

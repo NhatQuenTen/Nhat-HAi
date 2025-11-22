@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Ứng Viên - Tìm Việc Nhanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Global Sidebar CSS -->
+    <link rel="stylesheet" href="css/style-global.css">
+    
+    <!-- Page specific CSS (nếu có) -->
+    <!-- <link rel="stylesheet" href="css/tim-ung-vien.css"> -->
+</head>
+<body class="with-sidebar">
+    
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+     <div class="main-content-wrapper" id="mainContent">
+    <div class="main-right">
+  <!-- Thanh trên cùng -->
+  <div class="top">
+    <ul>
+      <li id="downloadBtn"><i class="fa-regular fa-circle-down"></i> <span>Tải xuống</span></li>
+     <a href="Trang-quản-lí-đăng-tin-tuyen-dung.html"><li id="addPostBtn"><i class="fa-regular fa-square-plus"></i> <span>Đăng tin mới</span></li></a>
+      <li class="custom-select">
+  <div class="selected">
+    <span class="selected-text">Tất cả</span>
+    <i class="fa-solid fa-angle-down"></i>
+  </div>
+  <div class="options">
+    <div><span>Tất cả</span></div>
+    <div><span>Mới nhất</span></div>
+    <div><span>Cũ nhất</span></div>
+  </div>
+</li>
+    </ul>
+  </div>
+</div>
+  <!-- BẢNG DỮ LIỆU -->
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Số thứ tự</th>
+          <th>Tên tin đăng</th>
+          <th>Thời gian đăng</th>
+          <th>Hồ sơ nộp</th>
+        </tr>
+      </thead>
+      <tbody id="data-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+   
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="Trang-Quan-Li-dang-tin.js"></script>
+    <!-- Load Sidebar -->
+    <script>
+        fetch('components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+                // Load sidebar JS after HTML is inserted
+                const script = document.createElement('script');
+                script.src = 'components/sidebar.js';
+                document.body.appendChild(script);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+</body>
+</html>
