@@ -913,7 +913,7 @@ body.with-sidebar {
 .data-table td {
     padding: 14px 16px;
     border-bottom: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
     font-size: 15px;
 }
 
