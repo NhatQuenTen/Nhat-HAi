@@ -76,6 +76,9 @@ class AuthSystem {
             id: user.id,
             email: user.email,
             phone: user.phone,
+            accountType: user.accountType,
+            fullName: user.fullName,
+            companyName: user.companyName || user.fullName,
             loginTime: new Date().toISOString()
         });
 
@@ -168,13 +171,18 @@ function validateLoginForm(emailOrPhone, password) {
 document.addEventListener('DOMContentLoaded', function() {
     // Check if already logged in
     if (window.location.pathname.includes('DangNhap.html') && auth.currentUser) {
-    const confirmRedirect = confirm('Bạn đã đăng nhập rồi! Chuyển đến trang chủ?');
-    if (confirmRedirect) {
-        window.location.href = 'TimUngVien.html';
+        // Check for redirect URL from protected pages
+        const redirectUrl = sessionStorage.getItem('redirectUrl');
+        if (redirectUrl) {
+            sessionStorage.removeItem('redirectUrl');
+            window.location.href = redirectUrl;
+            return;
+        }
+        
+        // Tự động chuyển về trang chủ
+        window.location.href = 'index.html';
         return;
     }
-    // else không làm gì, giữ currentUser
-}
 
     // Load remembered user
     const rememberMe = localStorage.getItem('rememberMe');
@@ -223,7 +231,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Redirect after short delay
             setTimeout(() => {
-                window.location.href = 'TimUngVien.html';
+                // Check for redirect URL from protected pages
+                const redirectUrl = sessionStorage.getItem('redirectUrl');
+                if (redirectUrl) {
+                    sessionStorage.removeItem('redirectUrl');
+                    window.location.href = redirectUrl;
+                } else {
+                    // Default redirect to homepage
+                    window.location.href = 'index.html';
+                }
             }, 1500);
             
         } catch (error) {

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đăng Tin - Tìm Việc Nhanh</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Global Sidebar CSS -->
+    <link rel="stylesheet" href="css/style-global.css">
+    
+    <!-- Page specific CSS (nếu có) -->
+    <!-- <link rel="stylesheet" href="css/dang-tin.css"> -->
+</head>
+<body class="with-sidebar">
+    
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+    
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper" id="mainContent">
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="bi bi-file-earmark-plus-fill text-primary me-2"></i>
+                    Đăng Tin Tuyển Dụng
+                </h1>
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Về trang chủ
+                </button>
+            </div>
+
+            <!-- Post Job Form -->
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <form id="jobPostForm">
+                        <div class="row g-4">
+                            <!-- Job Title -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Tiêu đề tin tuyển dụng <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="VD: Tuyển Senior Frontend Developer" required>
+                            </div>
+
+                            <!-- Job Category -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Ngành nghề <span class="text-danger">*</span></label>
+                                <select class="form-select" id="jobCategory" name="jobCategory" required>
+                                    <option value="">Chọn ngành nghề</option>
+                                    <option>Công nghệ thông tin</option>
+                                    <option>Kinh doanh / Bán hàng</option>
+                                    <option>Marketing / Truyền thông</option>
+                                    <option>Kế toán / Tài chính</option>
+                                    <option>Nhân sự</option>
+                                </select>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Địa điểm làm việc <span class="text-danger">*</span></label>
+                                <select class="form-select" id="jobLocation" name="jobLocation" required>
+                                    <option value="">Chọn địa điểm</option>
+                                    <option>Hồ Chí Minh</option>
+                                    <option>Hà Nội</option>
+                                    <option>Đà Nẵng</option>
+                                    <option>Cần Thơ</option>
+                                </select>
+                            </div>
+
+                            <!-- Salary Range -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Mức lương</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="salaryFrom" name="salaryFrom" placeholder="Từ">
+                                    <span class="input-group-text">-</span>
+                                    <input type="number" class="form-control" id="salaryTo" name="salaryTo" placeholder="Đến">
+                                    <select class="form-select" id="salaryCurrency" name="salaryCurrency" style="max-width: 120px;">
+                                        <option>triệu VNĐ</option>
+                                        <option>USD</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Job Type -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Hình thức làm việc</label>
+                                <select class="form-select" id="jobType" name="jobType">
+                                    <option>Toàn thời gian</option>
+                                    <option>Bán thời gian</option>
+                                    <option>Thực tập</option>
+                                    <option>Remote</option>
+                                </select>
+                            </div>
+
+                            <!-- Job Description -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Mô tả công việc <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="jobDescription" name="jobDescription" rows="5" placeholder="Nhập mô tả chi tiết về công việc..." required></textarea>
+                            </div>
+
+                            <!-- Requirements -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Yêu cầu ứng viên <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="jobRequirements" name="jobRequirements" rows="5" placeholder="Nhập yêu cầu về kỹ năng, kinh nghiệm..." required></textarea>
+                            </div>
+
+                            <!-- Benefits -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Quyền lợi</label>
+                                <textarea class="form-control" id="jobBenefits" name="jobBenefits" rows="4" placeholder="Nhập các quyền lợi cho ứng viên..."></textarea>
+                            </div>
+
+                            <!-- Contact Info -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email liên hệ <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="contactEmail" name="contactEmail" placeholder="hr@company.com" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Số điện thoại liên hệ</label>
+                                <input type="tel" class="form-control" id="contactPhone" name="contactPhone" placeholder="0123456789">
+                            </div>
+
+                            <!-- Application Deadline -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Hạn nộp hồ sơ <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="deadline" name="deadline" required>
+                            </div>
+
+                            <!-- Number of Positions -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Số lượng tuyển</label>
+                                <input type="number" class="form-control" id="positions" name="positions" placeholder="1" value="1" min="1">
+                            </div>
+
+                            <!-- Submit Buttons -->
+                            <div class="col-12">
+                                <div class="d-flex gap-3 justify-content-end pt-3 border-top">
+                                    <button type="button" class="btn btn-outline-secondary px-4" onclick="resetForm()">
+                                        <i class="bi bi-x-circle me-2"></i>Hủy
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary px-4" onclick="previewJob()">
+                                        <i class="bi bi-eye me-2"></i>Xem trước
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4">
+                                        <i class="bi bi-send me-2"></i>Đăng tin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Job Posting Tips -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">
+                        <i class="bi bi-lightbulb text-warning me-2"></i>
+                        Mẹo đăng tin hiệu quả
+                    </h5>
+                    <ul class="mb-0">
+                        <li class="mb-2">Tiêu đề rõ ràng, súc tích, chứa từ khóa chính về vị trí tuyển dụng</li>
+                        <li class="mb-2">Mô tả công việc chi tiết, cụ thể về nhiệm vụ hàng ngày</li>
+                        <li class="mb-2">Yêu cầu ứng viên phải thực tế, tránh quá cao hoặc quá thấp</li>
+                        <li class="mb-2">Nêu rõ các quyền lợi hấp dẫn để thu hút ứng viên</li>
+                        <li>Cập nhật thông tin liên hệ chính xác để ứng viên dễ dàng liên lạc</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Auth Check -->
+    <script src="auth-check.js"></script>
+    
+    <!-- Load Sidebar -->
+    <script>
+        fetch('components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+                // Load sidebar JS after HTML is inserted
+                const script = document.createElement('script');
+                script.src = 'components/sidebar.js';
+                document.body.appendChild(script);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+
+    <!-- Form Handler -->
+    <script>
+        // Lấy thông tin user hiện tại
+        const currentUser = getCurrentUser();
+        
+        if (!currentUser) {
+            alert('Vui lòng đăng nhập để đăng tin!');
+            window.location.href = 'DangNhap.html';
+        }
+
+        // Đặt giá trị mặc định cho email liên hệ
+        document.getElementById('contactEmail').value = currentUser.email || '';
+
+        // Hàm reset form
+        function resetForm() {
+            if (confirm('Bạn có chắc muốn hủy và xóa toàn bộ thông tin đã nhập?')) {
+                document.getElementById('jobPostForm').reset();
+                document.getElementById('contactEmail').value = currentUser.email || '';
+                showToast('Đã xóa thông tin form', 'info');
+            }
+        }
+
+        // Hàm xem trước tin đăng
+        function previewJob() {
+            const formData = getFormData();
+            if (!validateForm(formData)) {
+                showToast('Vui lòng điền đầy đủ thông tin bắt buộc!', 'error');
+                return;
+            }
+            
+            // Tạo modal preview
+            const previewContent = `
+                <h4>${formData.title}</h4>
+                <p><strong>Công ty:</strong> ${currentUser.companyName || 'Chưa cập nhật'}</p>
+                <p><strong>Địa điểm:</strong> ${formData.location}</p>
+                <p><strong>Mức lương:</strong> ${formData.salary}</p>
+                <p><strong>Hạn nộp:</strong> ${formData.deadline}</p>
+                <hr>
+                <h5>Mô tả công việc:</h5>
+                <p>${formData.description}</p>
+                <h5>Yêu cầu:</h5>
+                <p>${formData.requirements}</p>
+            `;
+            
+            alert('Xem trước:\n\n' + formData.title + '\n' + formData.location + '\n' + formData.salary);
+        }
+
+        // Lấy dữ liệu từ form
+        function getFormData() {
+            const salaryFrom = document.getElementById('salaryFrom').value;
+            const salaryTo = document.getElementById('salaryTo').value;
+            const currency = document.getElementById('salaryCurrency').value;
+            
+            let salary = 'Thỏa thuận';
+            if (salaryFrom && salaryTo) {
+                salary = `${salaryFrom}-${salaryTo} ${currency}`;
+            } else if (salaryFrom) {
+                salary = `Từ ${salaryFrom} ${currency}`;
+            } else if (salaryTo) {
+                salary = `Đến ${salaryTo} ${currency}`;
+            }
+
+            return {
+                title: document.getElementById('jobTitle').value.trim(),
+                category: document.getElementById('jobCategory').value,
+                location: document.getElementById('jobLocation').value,
+                salary: salary,
+                jobType: document.getElementById('jobType').value,
+                description: document.getElementById('jobDescription').value.trim(),
+                requirements: document.getElementById('jobRequirements').value.trim(),
+                benefits: document.getElementById('jobBenefits').value.trim(),
+                contactEmail: document.getElementById('contactEmail').value.trim(),
+                contactPhone: document.getElementById('contactPhone').value.trim(),
+                deadline: document.getElementById('deadline').value,
+                positions: document.getElementById('positions').value || 1
+            };
+        }
+
+        // Validate form
+        function validateForm(data) {
+            if (!data.title || !data.category || !data.location || !data.description || 
+                !data.requirements || !data.contactEmail || !data.deadline) {
+                return false;
+            }
+            return true;
+        }
+
+        // Xử lý submit form
+        document.getElementById('jobPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Lấy dữ liệu form
+            const formData = getFormData();
+            
+            // Validate
+            if (!validateForm(formData)) {
+                showToast('Vui lòng điền đầy đủ thông tin bắt buộc!', 'error');
+                return;
+            }
+
+            // Tạo job post object
+            const newJobPost = {
+                id: Date.now(),
+                userId: currentUser.id,
+                title: formData.title,
+                company: currentUser.companyName || currentUser.fullName || 'Công ty',
+                postDate: new Date().toISOString().split('T')[0],
+                deadline: formData.deadline,
+                applications: 0,
+                newApplications: 0,
+                status: 'pending', // Mặc định là chờ duyệt
+                salary: formData.salary,
+                location: formData.location,
+                category: formData.category,
+                jobType: formData.jobType,
+                description: formData.description,
+                requirements: formData.requirements,
+                benefits: formData.benefits,
+                contactEmail: formData.contactEmail,
+                contactPhone: formData.contactPhone,
+                positions: formData.positions
+            };
+
+            // Lấy danh sách job posts từ localStorage
+            let allJobPosts = JSON.parse(localStorage.getItem('jobPosts')) || [];
+            
+            // Thêm job post mới
+            allJobPosts.push(newJobPost);
+            
+            // Lưu vào localStorage
+            localStorage.setItem('jobPosts', JSON.stringify(allJobPosts));
+            
+            // Hiển thị thông báo thành công
+            showToast('Đăng tin tuyển dụng thành công!', 'success');
+            
+            // Reset form sau 1.5 giây
+            setTimeout(() => {
+                document.getElementById('jobPostForm').reset();
+                document.getElementById('contactEmail').value = currentUser.email || '';
+                
+                // Hỏi có muốn xem quản lý tin đăng không
+                if (confirm('Tin đăng của bạn đã được lưu thành công!\n\nBạn có muốn xem trang Quản lý tin đăng?')) {
+                    window.location.href = 'Trang-Quan-Li-dang-tin.html';
+                }
+            }, 1500);
+        });
+
+        // Hàm hiển thị toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification toast-${type}`;
+            const icon = type === 'success' ? 'check-circle' : 
+                         type === 'error' ? 'exclamation-triangle' : 'info-circle';
+            toast.innerHTML = `
+                <i class="bi bi-${icon}-fill"></i>
+                <span>${message}</span>
+            `;
+            
+            // Tạo style nếu chưa có
+            if (!document.querySelector('style[data-toast]')) {
+                const style = document.createElement('style');
+                style.setAttribute('data-toast', '');
+                style.textContent = `
+                    .toast-notification {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        padding: 1rem 1.5rem;
+                        background: white;
+                        border-radius: 12px;
+                        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        z-index: 9999;
+                        animation: slideIn 0.3s ease;
+                        font-weight: 500;
+                        min-width: 300px;
+                    }
+                    .toast-success { 
+                        border-left: 4px solid #22C55E; 
+                        color: #16A34A;
+                    }
+                    .toast-success i { color: #22C55E; font-size: 1.5rem; }
+                    .toast-error { 
+                        border-left: 4px solid #EF4444; 
+                        color: #DC2626;
+                    }
+                    .toast-error i { color: #EF4444; font-size: 1.5rem; }
+                    .toast-info { 
+                        border-left: 4px solid #2176FF; 
+                        color: #0D47A1;
+                    }
+                    .toast-info i { color: #2176FF; font-size: 1.5rem; }
+                    @keyframes slideIn {
+                        from { transform: translateX(400px); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Đặt ngày tối thiểu cho deadline là ngày mai
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const minDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('deadline').setAttribute('min', minDate);
+    </script>
+</body>
+</html>

@@ -371,10 +371,11 @@ class SidebarManager {
             }
         }
 
-        // Update name
+        // Update name - sử dụng fullName hoặc phần đầu email
         const nameElement = this.sidebar.querySelector('.sidebar-user-name');
         if (nameElement) {
-            nameElement.textContent = userData.companyName || userData.fullName || 'Người dùng';
+            const displayName = userData.fullName || userData.email.split('@')[0];
+            nameElement.textContent = displayName;
         }
 
         // Update email

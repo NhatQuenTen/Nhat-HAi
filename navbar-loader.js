@@ -40,6 +40,9 @@ function setActiveNavLink() {
 
 // Khởi tạo event handlers cho navbar
 function initNavbarEvents() {
+    // Kiểm tra trạng thái đăng nhập
+    checkUserLoginStatus();
+    
     // Event cho nút employer - Chuyển đến trang đăng nhập
     const employerBtn = document.querySelector('.btn-nav-employer');
     if (employerBtn) {
@@ -53,6 +56,38 @@ function initNavbarEvents() {
     if (jobseekerBtn) {
         jobseekerBtn.addEventListener('click', function() {
             alert('Chuyển hướng đến trang người tìm việc.');
+        });
+    }
+    
+    // User menu dropdown toggle
+    const userMenuTrigger = document.getElementById('userMenuTrigger');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+    
+    if (userMenuTrigger && userDropdownMenu) {
+        userMenuTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+        });
+        
+        // Đóng dropdown khi click bên ngoài
+        document.addEventListener('click', function() {
+            userDropdownMenu.classList.remove('show');
+        });
+        
+        userDropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // Logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                localStorage.removeItem('currentUser');
+                window.location.reload();
+            }
         });
     }
 
@@ -69,6 +104,57 @@ function initNavbarEvents() {
                 if (menu) menu.classList.remove('show');
             });
         });
+    }
+}
+
+// Kiểm tra và hiển thị user menu nếu đã đăng nhập
+function checkUserLoginStatus() {
+    const currentUser = localStorage.getItem('currentUser');
+    const userMenuContainer = document.getElementById('userMenuContainer');
+    const guestButtons = document.getElementById('guestButtons');
+    
+    if (currentUser) {
+        try {
+            const user = JSON.parse(currentUser);
+            
+            // Hiển thị user menu, ẩn guest buttons
+            if (userMenuContainer) userMenuContainer.style.display = 'block';
+            if (guestButtons) guestButtons.style.display = 'none';
+            
+            // Lấy thông tin đầy đủ từ users array
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userData = users.find(u => u.id === user.id) || user;
+            
+            // Cập nhật avatar ở menu trigger (chỉ cái avatar nhỏ)
+            const userAvatar = document.querySelector('.user-avatar');
+            if (userData.avatar) {
+                if (userAvatar) userAvatar.innerHTML = `<img src="${userData.avatar}" alt="Avatar">`;
+            } else {
+                if (userAvatar) userAvatar.innerHTML = '<i class="bi bi-person-circle"></i>';
+            }
+            
+            // Cập nhật thông tin user
+            const userName = document.getElementById('userName');
+            const userFullName = document.getElementById('userFullName');
+            const userEmail = document.getElementById('userEmail');
+            
+            // Lấy tên từ email nếu không có fullName
+            const displayName = userData.fullName || userData.email.split('@')[0];
+            
+            if (userName) userName.textContent = displayName;
+            if (userFullName) userFullName.textContent = displayName;
+            if (userEmail) userEmail.textContent = userData.email;
+            
+        } catch (e) {
+            console.error('Error parsing user data:', e);
+            // Nếu lỗi, hiển thị guest buttons
+            if (userMenuContainer) userMenuContainer.style.display = 'none';
+            if (guestButtons) guestButtons.style.display = 'flex';
+        }
+    } else {
+        // Chưa đăng nhập, hiển thị guest buttons
+        if (userMenuContainer) userMenuContainer.style.display = 'none';
+        if (guestButtons) guestButtons.style.display = 'flex';
     }
 }
 

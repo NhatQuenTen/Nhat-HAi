@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="Trang-quản-lí-đăng-tin.html" data-page="quan-ly">Đăng tin</a>
+                    <a class="nav-link" href="Trang-Dang-Tin-Tuyen-Dung.html" data-page="quan-ly">Đăng tin</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="TimUngVien.html">
@@ -40,20 +40,64 @@
                 </li>
             </ul>
             <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
-                <button class="btn btn-outline-primary btn-nav btn-nav-employer">
-                    <i class="bi bi-person-plus"></i>
-                    <div class="btn-text">
-                        <span>Nhà tuyển dụng</span>
-                        <small>Đăng ký/Đăng nhập</small>
+                <!-- User Menu (hiển thị khi đã đăng nhập) -->
+                <div class="user-menu-container" id="userMenuContainer" style="display: none;">
+                    <div class="user-menu-trigger" id="userMenuTrigger">
+                        <div class="user-avatar">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Người dùng</span>
+                            <small class="user-role">Nhà tuyển dụng</small>
+                        </div>
+                        <i class="bi bi-chevron-down ms-2"></i>
                     </div>
-                </button>
-                <button class="btn btn-primary btn-nav btn-nav-jobseeker">
-                    <i class="bi bi-search"></i>
-                    <div class="btn-text">
-                        <span>Chuyển đến trang</span>
-                        <small>Người tìm việc</small>
+                    
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <div class="dropdown-header">
+                            <div class="user-info-full">
+                                <strong id="userFullName">Tên người dùng</strong>
+                                <small id="userEmail">email@example.com</small>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="Trang-Quan-Li-dang-tin.html" class="dropdown-item">
+                            <i class="bi bi-clipboard-check-fill"></i>
+                            Quản lý tin đăng
+                        </a>
+                        <a href="Trang-cai-dat.html" class="dropdown-item">
+                            <i class="bi bi-gear-fill"></i>
+                            Cài đặt
+                        </a>
+                        <a href="Trang-ho-tro.html" class="dropdown-item">
+                            <i class="bi bi-question-circle-fill"></i>
+                            Hỗ trợ
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-danger" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Đăng xuất
+                        </a>
                     </div>
-                </button>
+                </div>
+                
+                <!-- Guest Buttons (hiển thị khi chưa đăng nhập) -->
+                <div id="guestButtons">
+                    <button class="btn btn-outline-primary btn-nav btn-nav-employer">
+                        <i class="bi bi-person-plus"></i>
+                        <div class="btn-text">
+                            <span>Nhà tuyển dụng</span>
+                            <small>Đăng ký/Đăng nhập</small>
+                        </div>
+                    </button>
+                    <button class="btn btn-primary btn-nav btn-nav-jobseeker">
+                        <i class="bi bi-search"></i>
+                        <div class="btn-text">
+                            <span>Chuyển đến trang</span>
+                            <small>Người tìm việc</small>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

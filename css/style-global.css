@@ -420,10 +420,13 @@ body.with-sidebar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    overflow: hidden;
+    background: linear-gradient(135deg, #2176FF, #0D47A1);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
 }
 
 .sidebar-user-avatar img {
@@ -434,16 +437,13 @@ body.with-sidebar {
 }
 
 .sidebar-user-avatar i {
-    font-size: 2.5rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: white;
     transition: transform 0.3s ease;
 }
 
-.sidebar-user:hover .sidebar-user-avatar i {
-    transform: scale(1.1) rotate(5deg);
+.sidebar-user:hover .sidebar-user-avatar {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(33, 118, 255, 0.3);
 }
 
 .sidebar-user-info {

@@ -266,18 +266,56 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     emailInput.addEventListener('blur', function() {
         const email = this.value.trim();
-        if (email && registration.emailExists(email)) {
-            showNotification('Email này đã được đăng ký!', 'warning');
-            this.focus();
+        // Xóa trạng thái cũ
+        this.classList.remove('is-invalid', 'is-valid');
+        const oldFeedback = this.parentElement.querySelector('.invalid-feedback');
+        if (oldFeedback) oldFeedback.remove();
+        
+        if (email) {
+            if (!registration.validateEmail(email)) {
+                this.classList.add('is-invalid');
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Email không hợp lệ!';
+                this.parentElement.appendChild(feedback);
+            } else if (registration.emailExists(email)) {
+                this.classList.add('is-invalid');
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Email này đã được đăng ký!';
+                this.parentElement.appendChild(feedback);
+                showNotification('Email này đã được đăng ký!', 'warning');
+            } else {
+                this.classList.add('is-valid');
+            }
         }
     });
 
     const phoneInput = document.getElementById('phone');
     phoneInput.addEventListener('blur', function() {
         const phone = this.value.trim();
-        if (phone && registration.phoneExists(phone)) {
-            showNotification('Số điện thoại này đã được đăng ký!', 'warning');
-            this.focus();
+        // Xóa trạng thái cũ
+        this.classList.remove('is-invalid', 'is-valid');
+        const oldFeedback = this.parentElement.querySelector('.invalid-feedback');
+        if (oldFeedback) oldFeedback.remove();
+        
+        if (phone) {
+            if (!registration.validatePhone(phone)) {
+                this.classList.add('is-invalid');
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Số điện thoại không hợp lệ! (VD: 0123456789)';
+                this.parentElement.appendChild(feedback);
+            } else if (registration.phoneExists(phone)) {
+                this.classList.add('is-invalid');
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Số điện thoại này đã được đăng ký!';
+                this.parentElement.appendChild(feedback);
+                showNotification('Số điện thoại này đã được đăng ký!', 'warning');
+            } else {
+                this.classList.add('is-valid');
+            }
         }
     });
 
@@ -311,6 +349,35 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (errors.length > 0) {
             showNotification(errors.join('<br>'), 'danger');
+            return;
+        }
+        
+        // Kiểm tra trùng lặp email và phone TRƯỚC KHI submit
+        if (registration.emailExists(formData.email)) {
+            const emailInput = document.getElementById('email');
+            emailInput.classList.add('is-invalid');
+            const feedback = emailInput.parentElement.querySelector('.invalid-feedback') || document.createElement('div');
+            feedback.className = 'invalid-feedback';
+            feedback.textContent = 'Email này đã được đăng ký!';
+            if (!emailInput.parentElement.querySelector('.invalid-feedback')) {
+                emailInput.parentElement.appendChild(feedback);
+            }
+            emailInput.focus();
+            showNotification('Email đã được đăng ký! Vui lòng sử dụng email khác.', 'danger');
+            return;
+        }
+        
+        if (registration.phoneExists(formData.phone)) {
+            const phoneInput = document.getElementById('phone');
+            phoneInput.classList.add('is-invalid');
+            const feedback = phoneInput.parentElement.querySelector('.invalid-feedback') || document.createElement('div');
+            feedback.className = 'invalid-feedback';
+            feedback.textContent = 'Số điện thoại này đã được đăng ký!';
+            if (!phoneInput.parentElement.querySelector('.invalid-feedback')) {
+                phoneInput.parentElement.appendChild(feedback);
+            }
+            phoneInput.focus();
+            showNotification('Số điện thoại đã được đăng ký! Vui lòng sử dụng số khác.', 'danger');
             return;
         }
 
