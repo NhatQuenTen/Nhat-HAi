@@ -381,6 +381,27 @@
                 padding: 1rem;
             }
         }
+
+        /* Toast Notification Animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body class="with-sidebar">
@@ -495,137 +516,7 @@
 
             <!-- Candidates List -->
             <div class="row g-4" id="candidatesList">
-                <!-- Candidate Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="flex-shrink-0">
-                                    <i class="bi bi-person-circle fs-1 text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 class="card-title mb-1">Nguyễn Văn A</h5>
-                                    <p class="text-muted small mb-0">Senior Developer</p>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <span class="badge bg-primary">JavaScript</span>
-                                <span class="badge bg-primary">React</span>
-                                <span class="badge bg-primary">Node.js</span>
-                            </div>
-                            <p class="text-muted small">5 năm kinh nghiệm</p>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-primary flex-grow-1 view-candidate-btn" 
-                                        data-id="1"
-                                        data-name="Nguyễn Văn A"
-                                        data-position="Senior Developer"
-                                        data-email="nguyenvana@email.com"
-                                        data-phone="0912345678"
-                                        data-address="Quận 1, TP.HCM"
-                                        data-birth="15/03/1990"
-                                        data-gender="Nam"
-                                        data-education="Đại học"
-                                        data-experience="5"
-                                        data-salary="25-35"
-                                        data-skills="JavaScript, React, Node.js, MongoDB, AWS"
-                                        data-status="Đang tìm việc">
-                                    <i class="bi bi-eye me-1"></i>Xem
-                                </button>
-                                <button class="btn btn-sm btn-primary flex-grow-1">
-                                    <i class="bi bi-bookmark me-1"></i>Lưu
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Candidate Card 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="flex-shrink-0">
-                                    <i class="bi bi-person-circle fs-1 text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 class="card-title mb-1">Trần Thị B</h5>
-                                    <p class="text-muted small mb-0">Marketing Manager</p>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <span class="badge bg-primary">SEO</span>
-                                <span class="badge bg-primary">Content</span>
-                                <span class="badge bg-primary">Google Ads</span>
-                            </div>
-                            <p class="text-muted small">7 năm kinh nghiệm</p>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-primary flex-grow-1 view-candidate-btn" 
-                                        data-id="2"
-                                        data-name="Trần Thị B"
-                                        data-position="Marketing Manager"
-                                        data-email="tranthib@email.com"
-                                        data-phone="0987654321"
-                                        data-address="Quận 3, TP.HCM"
-                                        data-birth="20/07/1988"
-                                        data-gender="Nữ"
-                                        data-education="Thạc sĩ"
-                                        data-experience="7"
-                                        data-salary="30-40"
-                                        data-skills="SEO, Content Marketing, Google Ads, Facebook Ads, Analytics"
-                                        data-status="Đang làm việc">
-                                    <i class="bi bi-eye me-1"></i>Xem
-                                </button>
-                                <button class="btn btn-sm btn-primary flex-grow-1">
-                                    <i class="bi bi-bookmark me-1"></i>Lưu
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Candidate Card 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="flex-shrink-0">
-                                    <i class="bi bi-person-circle fs-1 text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h5 class="card-title mb-1">Lê Văn C</h5>
-                                    <p class="text-muted small mb-0">UI/UX Designer</p>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <span class="badge bg-primary">Figma</span>
-                                <span class="badge bg-primary">Adobe XD</span>
-                                <span class="badge bg-primary">Sketch</span>
-                            </div>
-                            <p class="text-muted small">3 năm kinh nghiệm</p>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-primary flex-grow-1 view-candidate-btn" 
-                                        data-id="3"
-                                        data-name="Lê Văn C"
-                                        data-position="UI/UX Designer"
-                                        data-email="levanc@email.com"
-                                        data-phone="0901234567"
-                                        data-address="Quận 7, TP.HCM"
-                                        data-birth="10/11/1995"
-                                        data-gender="Nam"
-                                        data-education="Đại học"
-                                        data-experience="3"
-                                        data-salary="18-25"
-                                        data-skills="Figma, Adobe XD, Sketch, Photoshop, Illustrator"
-                                        data-status="Đang tìm việc">
-                                    <i class="bi bi-eye me-1"></i>Xem
-                                </button>
-                                <button class="btn btn-sm btn-primary flex-grow-1">
-                                    <i class="bi bi-bookmark me-1"></i>Lưu
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- 10 CV sẽ được load từ TimUngVien.js -->
             </div>
         </div>
     </div>
@@ -760,7 +651,7 @@
                     <i class="bi bi-download me-2"></i>
                     Tải CV
                 </button>
-                <button class="btn btn-outline-primary flex-grow-1">
+                <button class="btn btn-outline-primary flex-grow-1" id="btnSaveCandidateModal">
                     <i class="bi bi-bookmark me-2"></i>
                     Lưu hồ sơ
                 </button>
@@ -858,28 +749,64 @@
                     </label>
                     <div class="multi-select-wrapper">
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc1" value="hcm">
-                            <label for="loc1">Hồ Chí Minh</label>
+                            <input type="checkbox" id="loc1" value="Hà Nội">
+                            <label for="loc1">Hà Nội</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc2" value="hn">
-                            <label for="loc2">Hà Nội</label>
+                            <input type="checkbox" id="loc2" value="Hồ Chí Minh">
+                            <label for="loc2">Hồ Chí Minh</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc3" value="dn">
+                            <input type="checkbox" id="loc3" value="Đà Nẵng">
                             <label for="loc3">Đà Nẵng</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc4" value="hp">
+                            <input type="checkbox" id="loc4" value="Hải Phòng">
                             <label for="loc4">Hải Phòng</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc5" value="ct">
+                            <input type="checkbox" id="loc5" value="Cần Thơ">
                             <label for="loc5">Cần Thơ</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="loc6" value="bd">
+                            <input type="checkbox" id="loc6" value="Bình Dương">
                             <label for="loc6">Bình Dương</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc7" value="Đồng Nai">
+                            <label for="loc7">Đồng Nai</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc8" value="Khánh Hòa">
+                            <label for="loc8">Khánh Hòa</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc9" value="Bà Rịa - Vũng Tàu">
+                            <label for="loc9">Bà Rịa - Vũng Tàu</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc10" value="Bắc Ninh">
+                            <label for="loc10">Bắc Ninh</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc11" value="Thừa Thiên Huế">
+                            <label for="loc11">Thừa Thiên Huế</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc12" value="Quảng Nam">
+                            <label for="loc12">Quảng Nam</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc13" value="Quảng Ninh">
+                            <label for="loc13">Quảng Ninh</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc14" value="Nghệ An">
+                            <label for="loc14">Nghệ An</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="loc15" value="Thanh Hóa">
+                            <label for="loc15">Thanh Hóa</label>
                         </div>
                     </div>
                     <small class="text-muted d-block mt-2">Có thể chọn nhiều khu vực cùng lúc</small>
@@ -1035,6 +962,9 @@
     <!-- Auth Check -->
     <script src="auth-check.js"></script>
     
+    <!-- TimUngVien.js - Load CV data và render -->
+    <script src="TimUngVien.js"></script>
+    
     <!-- Load Sidebar -->
     <script>
         fetch('components/sidebar.html')
@@ -1095,9 +1025,13 @@
         // Get modal elements
         const candidateModal = document.getElementById('candidateModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
+        let currentModalCandidate = null; // Lưu thông tin candidate hiện tại
 
         // Function to open modal with candidate data
         function openCandidateModal(candidateData) {
+            // Lưu candidate data vào biến global
+            currentModalCandidate = candidateData;
+            
             // Populate modal with data
             document.getElementById('modalCandidateName').textContent = candidateData.name;
             document.getElementById('modalCandidatePosition').textContent = candidateData.position;
@@ -1179,6 +1113,22 @@
                     closeCandidateModal();
                 }
             });
+
+            // Save candidate from modal
+            const btnSaveCandidateModal = document.getElementById('btnSaveCandidateModal');
+            if (btnSaveCandidateModal) {
+                btnSaveCandidateModal.addEventListener('click', function() {
+                    if (currentModalCandidate && typeof saveCandidate === 'function') {
+                        saveCandidate(parseInt(currentModalCandidate.id));
+                        
+                        // Update button state
+                        this.innerHTML = '<i class="bi bi-bookmark-check-fill me-2"></i>Đã lưu';
+                        this.classList.remove('btn-outline-primary');
+                        this.classList.add('btn-success');
+                        this.disabled = true;
+                    }
+                });
+            }
         });
     </script>
 </body>

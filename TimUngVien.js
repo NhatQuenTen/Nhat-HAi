@@ -3,8 +3,163 @@
    Đồng bộ với trang quản lý đăng tin
    ======================================== */
 
-// Sample candidate data - KHÔNG THÊM SẴN, chỉ để demo cấu trúc
-const candidatesData = [];
+// Sample candidate data với 10 ứng viên đa dạng ngành nghề
+const candidatesData = [
+    {
+        id: 1,
+        name: 'Nguyễn Văn Minh',
+        position: 'Senior Frontend Developer',
+        avatar: '',
+        experience: '5 năm',
+        location: 'Hồ Chí Minh',
+        salary: '25-30 triệu',
+        skills: ['React', 'TypeScript', 'Next.js', 'TailwindCSS', 'Redux', 'Jest'],
+        education: 'Đại học Bách Khoa TP.HCM - Công nghệ thông tin',
+        email: 'nguyenvanminh@email.com',
+        phone: '0901234567',
+        description: 'Có 5 năm kinh nghiệm phát triển web frontend, thành thạo React ecosystem và các công nghệ hiện đại.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 2,
+        name: 'Trần Thị Hương',
+        position: 'Marketing Manager',
+        avatar: '',
+        experience: '7 năm',
+        location: 'Hà Nội',
+        salary: '30-35 triệu',
+        skills: ['Digital Marketing', 'SEO/SEM', 'Content Strategy', 'Google Analytics', 'Facebook Ads', 'Brand Management'],
+        education: 'Đại học Ngoại Thương - Marketing',
+        email: 'tranthihuong@email.com',
+        phone: '0912345678',
+        gender: 'Nữ',
+        description: 'Chuyên gia marketing với 7 năm kinh nghiệm, từng làm việc cho các thương hiệu lớn và startup.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 3,
+        name: 'Lê Hoàng Nam',
+        position: 'Backend Developer (Node.js)',
+        avatar: '',
+        experience: '4 năm',
+        location: 'Đà Nẵng',
+        salary: '20-25 triệu',
+        skills: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Docker', 'AWS', 'Microservices'],
+        education: 'Đại học Duy Tân - Kỹ thuật phần mềm',
+        email: 'lehoangnam@email.com',
+        phone: '0923456789',
+        description: 'Backend developer có kinh nghiệm xây dựng hệ thống microservices và API RESTful.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 4,
+        name: 'Phạm Thị Mai',
+        position: 'UI/UX Designer',
+        avatar: '',
+        experience: '3 năm',
+        location: 'Hồ Chí Minh',
+        salary: '15-20 triệu',
+        skills: ['Figma', 'Adobe XD', 'Sketch', 'Prototyping', 'User Research', 'Wireframing'],
+        education: 'Đại học Mỹ thuật TP.HCM - Thiết kế đồ họa',
+        email: 'phamthimai@email.com',
+        phone: '0934567890',
+        gender: 'Nữ',
+        description: 'Designer sáng tạo với khả năng nghiên cứu người dùng và thiết kế giao diện trực quan.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 5,
+        name: 'Võ Minh Tuấn',
+        position: 'Kế toán trưởng',
+        avatar: '',
+        experience: '8 năm',
+        location: 'Bình Dương',
+        salary: '25-30 triệu',
+        skills: ['Kế toán tổng hợp', 'Thuế', 'Kiểm toán', 'MISA', 'Excel nâng cao', 'Báo cáo tài chính'],
+        education: 'Đại học Kinh tế TP.HCM - Kế toán',
+        email: 'vominhtuan@email.com',
+        phone: '0945678901',
+        description: 'Kế toán trưởng có chứng chỉ CPA, am hiểu sâu về luật thuế và quản lý tài chính doanh nghiệp.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 6,
+        name: 'Đặng Thu Hà',
+        position: 'HR Manager',
+        avatar: '',
+        experience: '6 năm',
+        location: 'Hà Nội',
+        salary: '22-28 triệu',
+        skills: ['Tuyển dụng', 'C&B', 'Đào tạo', 'Luật lao động', 'HRIS', 'Employee Engagement'],
+        education: 'Đại học Lao động Xã hội - Quản trị nhân lực',
+        email: 'dangtuha@email.com',
+        phone: '0956789012',
+        gender: 'Nữ',
+        description: 'HR Manager với kinh nghiệm xây dựng văn hóa doanh nghiệp và quản lý đội ngũ hơn 200 nhân viên.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 7,
+        name: 'Hoàng Văn Đức',
+        position: 'Data Analyst',
+        avatar: '',
+        experience: '3 năm',
+        location: 'Cần Thơ',
+        salary: '18-22 triệu',
+        skills: ['Python', 'SQL', 'Power BI', 'Tableau', 'Excel', 'Statistics', 'Machine Learning'],
+        education: 'Đại học Cần Thơ - Khoa học dữ liệu',
+        email: 'hoangvanduc@email.com',
+        phone: '0967890123',
+        description: 'Phân tích dữ liệu chuyên nghiệp, có kinh nghiệm xây dựng dashboard và dự báo xu hướng.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 8,
+        name: 'Ngô Thị Lan',
+        position: 'Content Writer/Copywriter',
+        avatar: '',
+        experience: '4 năm',
+        location: 'Hồ Chí Minh',
+        salary: '12-16 triệu',
+        skills: ['Content Writing', 'SEO Writing', 'Storytelling', 'Social Media', 'WordPress', 'Creative Writing'],
+        education: 'Đại học Khoa học Xã hội và Nhân văn - Báo chí',
+        email: 'ngothilan@email.com',
+        phone: '0978901234',
+        gender: 'Nữ',
+        description: 'Content writer sáng tạo với portfolio đa dạng từ blog, social media đến brand storytelling.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 9,
+        name: 'Bùi Thanh Tùng',
+        position: 'DevOps Engineer',
+        avatar: '',
+        experience: '5 năm',
+        location: 'Đà Nẵng',
+        salary: '28-35 triệu',
+        skills: ['Docker', 'Kubernetes', 'Jenkins', 'GitLab CI/CD', 'AWS', 'Terraform', 'Monitoring'],
+        education: 'Đại học Bách Khoa Đà Nẵng - Công nghệ thông tin',
+        email: 'buithanhtung@email.com',
+        phone: '0989012345',
+        description: 'DevOps engineer với kinh nghiệm xây dựng và duy trì hệ thống CI/CD cho các dự án lớn.',
+        savedDate: new Date().toISOString()
+    },
+    {
+        id: 10,
+        name: 'Lý Minh Châu',
+        position: 'Business Analyst',
+        avatar: '',
+        experience: '4 năm',
+        location: 'Hà Nội',
+        salary: '20-25 triệu',
+        skills: ['Business Analysis', 'Requirements Gathering', 'JIRA', 'Agile/Scrum', 'UML', 'SQL', 'Process Mapping'],
+        education: 'Đại học Quốc gia Hà Nội - Hệ thống thông tin',
+        email: 'lyminhauchau@email.com',
+        phone: '0990123456',
+        description: 'BA có kinh nghiệm phân tích và tối ưu quy trình nghiệp vụ cho các dự án chuyển đổi số.',
+        savedDate: new Date().toISOString()
+    }
+];
 
 // Tags data
 let tagsData = [
@@ -20,9 +175,122 @@ let currentCandidate = null;
 
 // Initialize
 $(document).ready(function() {
+    console.log('TimUngVien.js loaded');
+    console.log('Candidates data:', candidatesData.length, 'candidates');
     setupEventListeners();
-    updateResultCount();
+    renderAllCandidates(); // Render 10 CV ngay khi load trang
+    updateResultCount(candidatesData.length);
 });
+
+// Render all candidates on page load
+function renderAllCandidates() {
+    console.log('renderAllCandidates() called');
+    const container = $('#candidatesList');
+    
+    if (container.length === 0) {
+        console.error('Container #candidatesList not found!');
+        return;
+    }
+    
+    console.log('Container found, rendering', candidatesData.length, 'candidates');
+    container.empty();
+    
+    candidatesData.forEach(candidate => {
+        const skillBadges = candidate.skills.slice(0, 3).map(skill => 
+            `<span class="badge bg-primary">${skill}</span>`
+        ).join(' ');
+        
+        const card = `
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="flex-shrink-0">
+                                <i class="bi bi-person-circle fs-1 text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="card-title mb-1">${candidate.name}</h5>
+                                <p class="text-muted small mb-0">${candidate.position}</p>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            ${skillBadges}
+                        </div>
+                        <p class="text-muted small mb-3">
+                            <i class="bi bi-briefcase me-1"></i>${candidate.experience} | 
+                            <i class="bi bi-geo-alt me-1"></i>${candidate.location}
+                        </p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary flex-grow-1 view-candidate-btn" 
+                                    data-id="${candidate.id}"
+                                    data-name="${candidate.name}"
+                                    data-position="${candidate.position}"
+                                    data-email="${candidate.email}"
+                                    data-phone="${candidate.phone}"
+                                    data-address="${candidate.location}"
+                                    data-birth="01/01/1990"
+                                    data-gender="${candidate.gender || 'Nam'}"
+                                    data-education="${candidate.education}"
+                                    data-experience="${candidate.experience.replace(' năm', '')}"
+                                    data-salary="${candidate.salary}"
+                                    data-skills="${candidate.skills.join(', ')}"
+                                    data-status="Đang tìm việc">
+                                <i class="bi bi-eye me-1"></i>Xem
+                            </button>
+                            <button class="btn btn-sm btn-primary flex-grow-1 btn-save" data-id="${candidate.id}">
+                                <i class="bi bi-bookmark me-1"></i>Lưu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.append(card);
+    });
+    
+    // Re-attach event listeners for view and save buttons
+    attachEventListeners();
+}
+
+// Attach event listeners to dynamically created buttons
+function attachEventListeners() {
+    // View candidate buttons
+    const viewButtons = document.querySelectorAll('.view-candidate-btn');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const candidateData = {
+                id: this.dataset.id,
+                name: this.dataset.name,
+                position: this.dataset.position,
+                email: this.dataset.email,
+                phone: this.dataset.phone,
+                address: this.dataset.address,
+                birth: this.dataset.birth,
+                gender: this.dataset.gender,
+                education: this.dataset.education,
+                experience: this.dataset.experience,
+                salary: this.dataset.salary,
+                skills: this.dataset.skills,
+                status: this.dataset.status
+            };
+            
+            // Call the existing modal function from HTML
+            if (typeof openCandidateModal === 'function') {
+                openCandidateModal(candidateData);
+            }
+        });
+    });
+    
+    // Save candidate buttons
+    const saveButtons = document.querySelectorAll('.btn-save');
+    saveButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const candidateId = parseInt(this.dataset.id);
+            saveCandidate(candidateId);
+        });
+    });
+}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -273,28 +541,81 @@ function showCandidateDetail(id) {
 // Save candidate
 function saveCandidate(id) {
     const candidate = candidatesData.find(c => c.id == id);
-    if (!candidate) return;
-    
-    if (savedCandidates.includes(id)) {
-        alert('⚠️ Ứng viên đã được lưu trước đó!');
-    } else {
-        savedCandidates.push(id);
-        updateSavedCount();
-        
-        // Show success message
-        const toast = `
-            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-                <div class="toast show bg-success text-white" role="alert">
-                    <div class="toast-body">
-                        <i class="bi bi-check-circle me-2"></i>
-                        Đã lưu hồ sơ của ${candidate.name}!
-                    </div>
-                </div>
-            </div>
-        `;
-        $('body').append(toast);
-        setTimeout(() => $('.toast').remove(), 3000);
+    if (!candidate) {
+        showToast('Không tìm thấy ứng viên!', 'error');
+        return;
     }
+    
+    // Load saved candidates from localStorage
+    let savedCandidates = JSON.parse(localStorage.getItem('savedCandidates')) || [];
+    
+    // Check if already saved
+    const alreadySaved = savedCandidates.some(c => c.id === candidate.id);
+    
+    if (alreadySaved) {
+        showToast('Ứng viên này đã được lưu trước đó!', 'warning');
+        return;
+    }
+    
+    // Add to saved candidates with saved date
+    const candidateToSave = {
+        ...candidate,
+        savedDate: new Date().toISOString()
+    };
+    
+    savedCandidates.push(candidateToSave);
+    
+    // Save to localStorage
+    localStorage.setItem('savedCandidates', JSON.stringify(savedCandidates));
+    
+    // Update button state - tìm button theo data-id
+    const btn = $(`.btn-save[data-id="${id}"]`);
+    btn.html('<i class="bi bi-bookmark-check-fill me-1"></i>Đã lưu');
+    btn.removeClass('btn-primary').addClass('btn-success');
+    btn.prop('disabled', true);
+    
+    // Show success toast
+    showToast(`Đã lưu hồ sơ: ${candidate.name}`, 'success');
+    
+    console.log('Saved candidates:', savedCandidates); // Debug log
+}
+
+// Show toast notification
+function showToast(message, type = 'info') {
+    // Remove existing toast if any
+    $('.custom-toast').remove();
+    
+    const iconMap = {
+        'success': 'bi-check-circle-fill',
+        'warning': 'bi-exclamation-triangle-fill',
+        'error': 'bi-x-circle-fill',
+        'info': 'bi-info-circle-fill'
+    };
+    
+    const bgMap = {
+        'success': 'bg-success',
+        'warning': 'bg-warning',
+        'error': 'bg-danger',
+        'info': 'bg-info'
+    };
+    
+    const toast = $(`
+        <div class="custom-toast ${bgMap[type]} text-white position-fixed" 
+             style="top: 20px; right: 20px; z-index: 9999; min-width: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); animation: slideInRight 0.3s ease;">
+            <div class="d-flex align-items-center p-3">
+                <i class="bi ${iconMap[type]} fs-4 me-3"></i>
+                <div class="flex-grow-1">${message}</div>
+                <button type="button" class="btn-close btn-close-white ms-2" onclick="$(this).closest('.custom-toast').remove()"></button>
+            </div>
+        </div>
+    `);
+    
+    $('body').append(toast);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        toast.fadeOut(300, function() { $(this).remove(); });
+    }, 3000);
 }
 
 // Show tag modal
